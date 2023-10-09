@@ -1,0 +1,12 @@
+111
+rati1
+mca1
+112
+rati2
+mca2
+113
+rati3
+mca3
+114
+rati kanta
+mca4
