@@ -2,7 +2,7 @@ package com.collection.list;
 
 import java.util.*;
 
-class Point
+class Point implements Comparable
 {
 	int x;
 	int y;
@@ -18,12 +18,28 @@ class Point
 		// TODO Auto-generated method stub
 		return "x= "+x+" y= "+y;
 	}
-	public int compareTo(Point p)
-	{
+	
+	@Override
+	public int compareTo(Object o) {
+		// TODO Auto-generated method stub
+		Point p = (Point)o;
 		if(this.x<p.x) return -1;
-		if(this.y>p.y) return 1;
-		return 0;
+		else if(this.y>p.y) return 1;
+		else 
+			
+		{
+			if(this.y<p.y) return -1;
+			else if (this.y>p.y) return 1;
+			else return 0;
+		}
 	}
+
+//	public int compareTo(Point p)
+//	{
+//		if(this.x<p.x) return -1;
+//		if(this.y>p.y) return 1;
+//		return 0;
+//	}
 }
 
 public class TreeCompareDemo {
@@ -32,7 +48,7 @@ public class TreeCompareDemo {
 		// TODO Auto-generated method stub
 
 		TreeSet<Point> ts = new TreeSet<>();
-		ts.add(new Point(1,2));
+		ts.add(new Point(1,1));
 		ts.add(new Point(5,5));
 		ts.add(new Point(5,2));
 		
