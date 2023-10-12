@@ -9,7 +9,7 @@ public class Question4 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
+
 		List<String> li = new ArrayList<>();
 		List<Character> li2 = new ArrayList<>();
 		li2.add('A');
@@ -17,48 +17,34 @@ public class Question4 {
 		li2.add('I');
 		li2.add('O');
 		li2.add('U');
-		
+		li2.add('a');
+		li2.add('e');
+		li2.add('i');
+		li2.add('o');
+		li2.add('u');
+
 		li.add("Apple");
-		li.add("Apple");
+		li.add("apple");
 		li.add("Apple");
 		li.add("Ball");
 		li.add("Cat");
 		li.add("Elephant");
 		li.add("India");
 		li.add("Rapidsoft");
-		
-//		for(String s:li)
-//		{
-//			if(li2.contains(li.char			))
-//		}
-		
-		
-//		li.removeAll(li2);
-//		for(String x:li)
-			
-//		{
-//			li.removeif(x->li2.contains(x.charAt(0)));
+		System.out.println("Original List: "+ li);
 
-//		}
 			
-			
-//		li.removeIf(n-> (li2.contains(n.charAt(0))) );
+		Iterator<String> it = li.iterator();
 		
-//		System.out.println(li2.contains(x.charAt(0)));
-		li.size();
-
-			for(int i=0;i<li.size();i++)
-			{
-				String s=li.get(i);
-				if(li2.contains(s.charAt(0)))
-				{
-					System.out.println(li2.contains(s));
-					System.out.println(li.get(i)+" "+i);
-					li.remove(i);
-				}
-			}
+		while(it.hasNext())
+		{
 			
-			System.out.println(li);
+			if(li2.contains(it.next().charAt(0)))
+				it.remove();
+		}
+		
+		
+		System.out.println("After removing vowel: "+li);
 	}
 
 }
