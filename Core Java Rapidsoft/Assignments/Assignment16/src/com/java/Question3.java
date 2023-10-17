@@ -1,4 +1,4 @@
-//Question: Implement a program to find the largest element in a queue of integers without removing 
+//Question: Implement a program to find the largest element in a queue of integers without removing
 //any elements from the queue.
 //Input: A queue of integers.
 //Output: The largest element in the queue.

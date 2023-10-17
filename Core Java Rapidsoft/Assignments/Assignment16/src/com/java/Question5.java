@@ -9,26 +9,18 @@ import java.util.*;
 
 public class Question5 {
 	
-	static Queue<Integer> sortQue(Queue<Integer> que)
+	static void sortQue(PriorityQueue<Integer> que)
 	{
-		int min = Integer.MAX_VALUE;
-		Queue<Integer> sortQue = new ArrayDeque<Integer>();
-		
-		for (Integer val : que) {
-			if(val<min)
-			{
-				min=val;
-				sortQue.add(min);
-			}
+		for(Integer num:que)
+		{
+			System.out.print(num+", ");
 		}
-		
-		return sortQue;
 	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		Queue<Integer> que = new ArrayDeque<Integer>();
+		PriorityQueue<Integer> que = new PriorityQueue<>();
 		
 		que.add(9);
 		que.add(3);
@@ -37,7 +29,7 @@ public class Question5 {
 		que.add(56);
 		que.add(10);
 		
-		System.out.println("Sorted Queue = "+sortQue(que));
+		sortQue(que);
 	}
 
 }

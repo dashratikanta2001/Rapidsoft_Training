@@ -16,7 +16,7 @@ public class Question4 {
 		for (String cust : que) {
 			System.out.println(cust);
 		}
-	}
+	}	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
