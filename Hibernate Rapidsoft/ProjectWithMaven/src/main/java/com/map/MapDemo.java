@@ -1,11 +1,11 @@
 package com.map;
 
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;  
+//import java.util.List;
 
-import org.hibernate.Session;
+import org.hibernate.Session; 
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+//import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 public class MapDemo {
@@ -50,13 +50,13 @@ public class MapDemo {
 
 		// Creating Question
 		Question q = new Question();
-		q.setQuestionId(1212);
+		q.setQuestionId(121);
 		q.setQuestion("What is java ?");
 
 		// Creating Answer1
 		Answer ans = new Answer();
 		ans.setAnswerId(343);
-		ans.setAnswer("Java is programming language");
+		ans.setAnswer("java is programming language");
 		ans.setQuestion(q);
 
 		// Creating Answer1
@@ -68,38 +68,51 @@ public class MapDemo {
 		// Creating Answer1
 		Answer ans2 = new Answer();
 		ans2.setAnswerId(363);
-		ans2.setAnswer("Java has different types of frameworks");
+		ans2.setAnswer("java has different types of frameworks");
 		ans2.setQuestion(q);
 
 		List<Answer> list = new ArrayList<>();
 		list.add(ans);
 		list.add(ans1);
 		list.add(ans2);
-		q.setAnswers(list);*/
+		q.setAnswers(list);
+		
+		*/
 
 		// session
 		Session s = factory.openSession();
-		Transaction tx = s.beginTransaction();
+//		Transaction tx = s.beginTransaction();
 
 //		// save
 //		s.save(q);
 //		s.save(ans);
 //		s.save(ans1);
 //		s.save(ans2);
+//		tx.commit();
 		
 		//Fetching.....
 		
+//		Question q1 = s.get(Question.class, 1213);
+//		System.out.println(q1.getQuestion());
+//		
+//		for(Answer a: q1.getAnswers())
+//		{
+//			System.out.println(a.getAnswer());
+//		}
+//		
+//		System.out.println("Ans--------------------");
+//		Answer a1 = s.get(Answer.class, 363);
+//		System.out.println(a1.getAnswer());
+//		System.out.println(a1.getQuestion().getQuestion());
+		
 		Question q = s.get(Question.class, 1212);
+		
+		System.out.println(q.getQuestionId());
 		System.out.println(q.getQuestion());
-		
-		for(Answer a: q.getAnswers())
-		{
-			System.out.println(a.getAnswer());
-		}
+		//lazy
+		System.out.println(q.getAnswers().size());
 		
 		
-		tx.commit();
-
 		s.close();
 
 		factory.close();
