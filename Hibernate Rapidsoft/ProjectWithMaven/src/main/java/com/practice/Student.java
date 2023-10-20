@@ -1,10 +1,17 @@
 package com.practice;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 //import javax.persistence.Table;
 
 @Entity
+//To enable 2nd level cache write the below 2 line ....
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 //@Table(name="mystudents")
 public class Student {
 	
