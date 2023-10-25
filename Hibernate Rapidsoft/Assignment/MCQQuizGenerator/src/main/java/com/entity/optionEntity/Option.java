@@ -1,6 +1,6 @@
 package com.entity.optionEntity;
 
-import javax.persistence.Entity;
+import javax.persistence.Entity; 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,13 +12,13 @@ import com.entity.questionEntity.Question;
 
 
 @Entity
-@Table(name = "option")
+@Table(name = "q_options")	
 public class Option {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
-	private String option;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int o_id;
+	private String q_option;
 	
 	@ManyToOne
 	@JoinColumn(name = "q_id")
@@ -31,20 +31,20 @@ public class Option {
 
 	public Option( String option, Question question) {
 		super();
-		this.option = option;
+		this.q_option = option;
 		this.question = question;
 	}
 
 	public int getId() {
-		return id;
+		return o_id;
 	}
 
 	public String getOption() {
-		return option;
+		return q_option;
 	}
 
 	public void setOption(String option) {
-		this.option = option;
+		this.q_option = option;
 	}
 
 	public Question getQuestion() {

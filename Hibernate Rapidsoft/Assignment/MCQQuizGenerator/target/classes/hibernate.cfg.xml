@@ -16,10 +16,11 @@
 		<property name="show_sql">true</property>
 		<property name="format_sql">true</property>
 		
-<!-- 		<mapping class="com.entity.questionEntity.Question"/>
+		<mapping class="com.entity.questionEntity.Question"/>
 		<mapping class="com.entity.optionEntity.Option"/>
-		<mapping class="com.entity.userInputEntity.UserInput"/>  -->
+<!-- 		<mapping class="com.entity.userInputEntity.UserInput"/>  -->
 		<mapping class="com.entity.userEntity.User"/>
+		<mapping class="com.entity.questionAnswerEntity.QuestionAnswer"/>
 		
 		
 

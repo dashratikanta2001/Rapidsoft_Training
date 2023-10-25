@@ -64,7 +64,7 @@ public class ControllerMenu {
 			break;
 		case 5:
 			System.out.println("Case 5 Entered");
-			ms.addQuestion();
+			ms.addQuestionOption();
 			break;
 		case 6:
 			System.out.println("Case 6 Entered");

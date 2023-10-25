@@ -18,12 +18,12 @@ import com.entity.optionEntity.Option;
 public class Question {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int q_id;
 	
 	private String question;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "question")
 	private List<Option> option;
 
 	
@@ -48,7 +48,7 @@ public class Question {
 	}
 
 	public int getId() {
-		return id;
+		return q_id;
 	}
 
 	
