@@ -61,6 +61,10 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public User(int user_id) {
+		super();
+		this.user_id = user_id;
+	}
 	
 
 }

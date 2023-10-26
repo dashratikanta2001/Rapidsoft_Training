@@ -1,7 +1,8 @@
 package com.dao.optionsDAO;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,47 +13,51 @@ import com.entity.optionEntity.Option;
 import com.entity.questionEntity.Question;
 
 public class OptionsDAO {
-	SessionFactory f = new Configuration().configure().buildSessionFactory();
-	Session session = f.openSession();
+	@SuppressWarnings("unused")
 	public void addOption(int questionId, String option) {
+		SessionFactory f = new Configuration().configure().buildSessionFactory();
+		Session session = f.openSession();
 		// TODO Auto-generated method stub
 		Transaction tx = session.beginTransaction();
 
-		try {
+		
 			
-			Question q = session.get(Question.class, questionId);
+			Question q = session.load(Question.class, questionId);
+			String checkavailable = q.getQuestion();
 			
 			Option op = new Option();
 			op.setOption(option);	
 			op.setQuestion(q);
-//			q.get
-			System.out.println("This is question id:" +q.getId());
 			
 			session.save(op);
 			tx.commit();
 			
-			
+			session.close();
+			f.close();
+
+	}
+	
+	public Map<Integer, String> getOptions(int qid) {
+		// TODO Auto-generated method stub
+		SessionFactory f = new Configuration().configure().buildSessionFactory();
+		Session session = f.openSession();
+		Map<Integer, String> optionMap = new HashMap<>();
+		try {
+			Question q = session.get(Question.class, qid);
+					
+			for(Option op:q.getOption())
+			{
+				optionMap.put(op.getId(), op.getOption());
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("Exception: \n\n\n\n\n\n"+e+"\n\n\n");
 		}
 		finally {
 			session.close();
 			f.close();
 		}
-
-	}
-	
-	public void getOptions(int qid) {
-		// TODO Auto-generated method stub
 		
-		Question q = session.get(Question.class, qid);
-		int i=1;
-		
-		for(Option op:q.getOption())
-		{
-			System.out.println(i++ +". "+ op.getOption());
-		}
+		return optionMap;
 		
 
 	}

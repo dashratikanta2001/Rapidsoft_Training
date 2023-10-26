@@ -60,4 +60,10 @@ public class Question {
 		this.question = question;
 	}
 
+	public Question(int q_id) {
+		super();
+		this.q_id = q_id;
+	}
+
+	
 }

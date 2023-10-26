@@ -1,7 +1,6 @@
 package com.controller;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.BufferedReader;  
 import java.io.InputStreamReader;
 
 import com.menuService.MenuService;
@@ -17,12 +16,11 @@ public class ControllerMenu {
 			displayMenu();
 			try {
 				menu = Integer.parseInt(br.readLine());
-			} catch (IOException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 			switchCase(menu);
-		} while (menu!=6);
+		} while (menu != 6);
 
 	}
 
@@ -45,29 +43,22 @@ public class ControllerMenu {
 
 		switch (menu) {
 		case 1:
-			System.out.println("Case 1 Entered");
-			
 			ms.addUser();
-			
+
 			break;
 		case 2:
-			System.out.println("Case 2 Entered");
 			ms.startQuiz();
 			break;
 		case 3:
-			System.out.println("Case 3 Entered");
 			ms.showMarkById();
 			break;
 		case 4:
-			System.out.println("Case 4 Entered");
 			ms.showAllMarks();
 			break;
 		case 5:
-			System.out.println("Case 5 Entered");
 			ms.addQuestionOption();
 			break;
 		case 6:
-			System.out.println("Case 6 Entered");
 			System.out.println("Thank you");
 			break;
 

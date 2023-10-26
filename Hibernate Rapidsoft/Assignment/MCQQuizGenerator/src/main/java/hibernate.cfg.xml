@@ -13,12 +13,12 @@
 		<property name="connection.password">Admin@123</property>
 		<property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
 		<property name="hbm2ddl.auto">update</property>
-		<property name="show_sql">true</property>
-		<property name="format_sql">true</property>
+<!-- 		<property name="show_sql">true</property>
+		<property name="format_sql">true</property> -->
 		
 		<mapping class="com.entity.questionEntity.Question"/>
 		<mapping class="com.entity.optionEntity.Option"/>
-<!-- 		<mapping class="com.entity.userInputEntity.UserInput"/>  -->
+ 		<mapping class="com.entity.userInputEntity.UserInput"/> 
 		<mapping class="com.entity.userEntity.User"/>
 		<mapping class="com.entity.questionAnswerEntity.QuestionAnswer"/>
 		

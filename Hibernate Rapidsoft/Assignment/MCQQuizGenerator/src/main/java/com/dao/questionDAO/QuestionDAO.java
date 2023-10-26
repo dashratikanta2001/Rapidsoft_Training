@@ -19,6 +19,7 @@ public class QuestionDAO {
 			Question q = new Question();
 			q.setQuestion(question);
 			session.save(q);
+			System.out.println("This Question ID = "+ q.getId());
 			tx.commit();
 
 		} catch (Exception e) {

@@ -55,4 +55,10 @@ public class Option {
 		this.question = question;
 	}
 
+	public Option(int o_id) {
+		super();
+		this.o_id = o_id;
+	}
+
+	
 }
