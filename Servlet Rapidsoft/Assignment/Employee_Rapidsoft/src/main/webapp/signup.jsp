@@ -25,12 +25,12 @@
 
 				<div class="card">
 					<div class="card-content indigo lighten-1 center">
-						<h5 id="msg"></h5>
-						<h3 class="center">Register here !!</h3>
-						<h5 id="msg"></h5>
+						<h5 id="msg1"></h5>
+
 
 						<div class="form" style="color: white">
 							<!-- creating form -->
+							<h3 class="center" style="color: black">Register here !!</h3>
 
 							<form action="Register" method="post" id="signupform">
 
@@ -82,14 +82,25 @@
 
 							</form>
 
-
 						</div>
-						
+						<div class="redirect" style="display: none;">
+							<h5 id="msg2">Welcome</h5>
+							<form action="Login" method="get">
+								<button type="submit"
+									class="waves-effect waves-light btn-large red"
+									style="margin-top: 5em;">
+									<i class="material-icons left">login</i>Login
+								</button>
+
+							</form>
+						</div>
+
 						<div class="loader" style="margin-top: 20vh; display: none;">
 							<div class="progress">
 								<div class="indeterminate"></div>
 							</div>
-							<h5 class="center" style="color: green;" id="waitmsg">Please wait</h5>
+							<h5 class="center" style="color: green;" id="waitmsg">Please
+								wait</h5>
 						</div>
 					</div>
 				</div>
@@ -98,71 +109,89 @@
 		</div>
 
 	</div>
+	
+	<footer class="page-footer" style="bottom:0; position: fixed; width: 100%; font-size: 15px;">
+		<div class="footer-copyright">
+			<div class="container center">
+				Copyright © Rapidsoft Technology 
+			</div>
+		</div>
+	</footer>
 
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script type="text/javascript">
-	
-	$(document).ready(function(){
-		console.log("ready...........")
-		
-		$("#signupform").on('submit', function(event){
-			
-		//	event.preventDefault();
-			
-			var f = $(this).serialize();
-			
-			console.log(f);
-			$(".loader").show();
-			$(".form").hide();
-			$.ajax({
+		$(document).ready(function() {
+			var name;
+
+			$("#signupform").on('submit', function(event) {
 				
-				url:"Register",
-				data:f,
-				type:"POST",
-				success:function(data,textStatus,jqXHR){
-					
-					console.log("data="+data);
-					let dd = data.trim("success");
-					console.log("dd = == == = "+dd[0]);
-					console.log("textStatus = "+textStatus);
-					console.log("Success......");
-					$(".loader").hide();
-					if (textStatus.trim()==="success") {
-						console.log("Success...... in if condition	");
+				$('#msg1').html("");
+
+				event.preventDefault();
+
+				var f = $(this).serialize();
+
+				//console.log(f);
+				$(".loader").show();
+				$(".form").hide();
+				$.ajax({
+
+					url : "Register",
+					data : f,
+					type : "POST",
+					success : function(data, textStatus, jqXHR) {
+
+						$(".loader").hide();
 						
-						$('#waitmsg').html("Redirecting to homepage...")
-						$('#waitmsg').addClass('red-text')
-						$(".loader").show();
-						$('input').val("");
-						setTimeout(function(){},3000);
-					}else {
+						
+						
+						name=data.split("\n")[1];
+						
+						if (data.search("success") == 0) {
+							$('#msg2').html("Hello "+name+" Your details submitted Succefully.")
+							$(".redirect").show();
+							$('.form').remove();
+							
+						} 
+						else if (data.search("error") == 0) {
+							$(".form").show();
+							$('#msg1').html("Something Went Wrong on server");
+							$('#msg1').addClass('red-text')
+							//console.log("In success error");
+							
+						} 
+						
+						else {
+
+							$(".form").show();
+							$('#msg1').html(data);
+							$('#msg1').addClass('red-text')
+							//console.log("In success error");
+						}
+
+					},
+					error : function(jqXHR, textStatus, error) {
 
 						$(".form").show();
-						$('#msg').html("Something Went Wrong on server");
-						$('#msg').addClass('red-text')
-						console.log("In success error");
+						$(".loader").hide();
+						$(".form").show();
+						$('#msg1').html("Something Went Wrong on server");
+						$('#msg1').addClass('red-text')
 					}
-					
-				},
-				error:function(jqXHR, textStatus, error){
 
-					$(".form").show();
-					console.log(data);
-					console.log("Error.......");
-					$(".loader").hide();
-					$(".form").show();
-					$('#msg').html("Something Went Wrong on server");
-					$('#msg').addClass('red-text')
-				}
-				
+				})
+
 			})
-			
+
+			$('redirect').on('submit', function() {
+				$ajax({
+					url : "Login",
+					type : "GET"
+				})
+			})
+
 		})
-		
-		
-	})
-	
 	</script>
 </body>
 </html>

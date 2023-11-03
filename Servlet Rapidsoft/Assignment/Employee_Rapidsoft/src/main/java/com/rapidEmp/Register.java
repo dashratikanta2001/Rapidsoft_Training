@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -43,6 +46,9 @@ public class Register extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 response.setContentType("text/html");
+LocalDate currentDate = LocalDate.now();
+DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
 		
 		PrintWriter out = response.getWriter();
 		try {
@@ -57,29 +63,34 @@ response.setContentType("text/html");
 		String password = request.getParameter("user_password");
 		String gender = request.getParameter("user_gender");
 		
-		String query = "insert into rapidianss (fname, lname, email, dob, phoneno, empcode, password, gender) values(?,?,?,?,?,?,?,?)";
+		
+		String query = "insert into rapidians (fname, lname, email, dob, phoneno, empcode, password, gender,join_date) values(?,?,?,?,?,?,?,?,?)";
 		
 		PreparedStatement pstmt = Config.databaseCon().prepareStatement(query);
 		
 		pstmt.setString(1, fname);
-		pstmt.setString(2, lname);
+		pstmt.setString(2, lname);	
 		pstmt.setString(3, email);	
 		pstmt.setString(4, dob);
 		pstmt.setString(5, phno);
 		pstmt.setString(6, empcode);
 		pstmt.setString(7, password);
 		pstmt.setString(8, gender);
+		pstmt.setString(9, currentDate.format(formatter));
 		
 		pstmt.executeUpdate();
-		out.println("error");
-//		out.println(fname);
-		RequestDispatcher rd = request.getRequestDispatcher("/regsuccess.jsp");
-		rd.include(request, response);
-//		response.sendError(101);
+		out.println("success");
+		out.println(fname);
 		
-		System.out.println("Query updated Successfully");
+//		System.out.println("Query updated Successfully");
 		
-		} catch (Exception e) {
+		} catch (SQLIntegrityConstraintViolationException e) {
+			// TODO: handle exception
+			out.println("Employee code or Phone number already Exist");
+//			System.out.println("Duplicate Entry");
+		}
+		
+		catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			out.println("error");

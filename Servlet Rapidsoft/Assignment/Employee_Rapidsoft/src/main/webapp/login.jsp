@@ -45,6 +45,7 @@
 									class="waves-effect waves-light btn-large blue">
 									<i class="material-icons left">login</i>Login
 								</button>
+								<p>Not have an Account? <a href="signup.jsp" >Register Here</a>
 
 							</form>
 						</div>
@@ -62,20 +63,27 @@
 		</div>
 
 	</div>
+	<footer class="page-footer" style="bottom:0; position: fixed; width: 100%; font-size: 15px;">
+		<div class="footer-copyright">
+			<div class="container center">
+				Copyright © Rapidsoft Technology 
+			</div>
+		</div>
+	</footer>
 
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 	<script type="text/javascript">
 		$(document).ready(function() {
-			console.log("Its ready.......")
+			//console.log("Its ready.......")
 
-			$("#myform").on('submit', function(event) {
+			$("#loginform").on('submit', function(event) {
 				event.preventDefault();
 
 				var f = $(this).serialize();
 
-				console.log(f);
+				//console.log(f);
 
 				$.ajax({
 
@@ -83,27 +91,26 @@
 					data : f,
 					type : "POST",
 					success : function(data, textStatus, jqXHR) {
-						console.log(data);
-						console.log("success");
+						//console.log(data);
+						//console.log("success");
 						$(".loader").hide();
 						$(".form").show();
-						if (data.trim() === "Done") {
-							$('#msg').html("Successfully Registered !!")
-							$('#msg').addClass('green-text')
-						} else {
-							$('#msg').html("Something Went Wrong on server");
+						if (data.trim() === "Invalid Cridential") {
+							$('#msg').html("Invalid Cridential");
 							$('#msg').addClass('red-text')
-							console.log("In success error");
 						}
+						  else {
+							$('.row').html(data)
+						}  
 					},
 					error : function(jqXHR, textStatus, errorThrown) {
-						console.log(data);
-						console.log("error");
+						//console.log(data);
+						//console.log("error");
 						$(".loader").hide();
 						$(".form").show();
 						$('#msg').html("Something Went Wrong on server");
 						$('#msg').addClass('red-text')
-						console.log("in error error")
+						//console.log("in error error")
 					}
 
 				})
