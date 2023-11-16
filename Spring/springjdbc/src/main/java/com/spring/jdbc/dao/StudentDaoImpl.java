@@ -1,11 +1,18 @@
 package com.spring.jdbc.dao;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import com.spring.jdbc.entities.Student;
 
+@Component("studentDao")
 public class StudentDaoImpl implements StudentDao {
 
+	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
@@ -57,9 +64,22 @@ public class StudentDaoImpl implements StudentDao {
 		//Selecting single student data
 		
 		String query = "select * from student where stdId=?";
-		this.jdbcTemplate.queryForObject(query,rowMapper ,studentId);
+		RowMapper<Student> rowMapper = new RowMapperImpl();
+		Student student = this.jdbcTemplate.queryForObject(query,rowMapper ,studentId);
 		
-		return null;
+		return student;
+	}
+
+	@Override
+	public List<Student> getAllStudent() {
+		// TODO Auto-generated method stub
+		//Selecting all student
+		
+		String query = "select * from student";
+		List<Student> students = this.jdbcTemplate.query(query, new RowMapperImpl());
+		
+		
+		return students;
 	}
 
 }
