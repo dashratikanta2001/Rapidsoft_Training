@@ -91,4 +91,11 @@ public class User {
 		this.id = id;
 	}
 
+	public User(int id) {
+		super();
+		this.id = id;
+	}
+	
+	
+
 }

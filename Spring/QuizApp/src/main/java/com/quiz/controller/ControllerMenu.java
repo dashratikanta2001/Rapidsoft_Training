@@ -26,6 +26,7 @@ public class ControllerMenu {
 
 				// Enter menu value from user
 				int menuNo = Integer.parseInt(br.readLine());
+				ExamService examService = new ExamService();
 
 				switch (menuNo) {
 				case 1:
@@ -34,9 +35,12 @@ public class ControllerMenu {
 					break;
 				case 2:
 					System.out.println("No 2 selected");
+					
+					examService.startExam();
 					break;
 				case 3:
 					System.out.println("No 3 selected");
+					examService.showResultByEmail();
 					break;
 				case 4:
 					System.out.println("No 4 selected");
@@ -69,7 +73,7 @@ public class ControllerMenu {
 				System.out.println("3. Update Question");
 				System.out.println("4. Update Option");
 				System.out.println("5. Add user");
-				System.out.println("5. Exit");
+				System.out.println("6. Exit");
 				System.out.println();
 				
 				// Enter menu value from user
@@ -77,11 +81,12 @@ public class ControllerMenu {
 
 				switch (menuNo) {
 				case 1:
-					System.out.println("No 1 selected");
-					service.checkUserAvailable();
+//					System.out.println("No 1 selected");
+					service.setQuestion();
 					break;
 				case 2:
-					System.out.println("No 2 selected");
+//					System.out.println("No 2 selected");
+					service.setOption();
 					break;
 				case 3:
 					System.out.println("No 3 selected");
@@ -90,11 +95,11 @@ public class ControllerMenu {
 					System.out.println("No 4 selected");
 					break;
 				case 5:
-					System.out.println("No 5 selected");
+//					System.out.println("No 5 selected");
 					service.addUser();
 					break;
 				case 6:
-					System.out.println("No 5 selected");
+//					System.out.println("No 5 selected");
 					checker = false;
 					break;
 				}

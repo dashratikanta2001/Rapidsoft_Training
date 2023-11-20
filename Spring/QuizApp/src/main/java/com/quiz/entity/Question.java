@@ -76,4 +76,11 @@ public class Question {
 		return question_id;
 	}
 
+	public Question(int question_id) {
+		super();
+		this.question_id = question_id;
+	}
+	
+	
+
 }

@@ -65,4 +65,9 @@ public class Option {
 		return option_id;
 	}
 
+	public Option(int option_id) {
+		super();
+		this.option_id = option_id;
+	}
+
 }
