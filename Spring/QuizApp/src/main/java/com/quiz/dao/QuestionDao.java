@@ -33,7 +33,7 @@ public class QuestionDao {
 	
 	public HashMap<Integer, String> showQuestionById(int classId, int testId) {
 		// TODO Auto-generated method stub
-		String query="from Question where class_id=:c_id and test_id=:t_id";
+		String query="from Question where class_id=:c_id and test_no=:t_id";
 		
 //		List<String> param=new ArrayList<>();
 //		param.addAll(classId);
@@ -60,7 +60,7 @@ public class QuestionDao {
 	public List<Question> showQuestion(int class_id, int test_no) {
 		// TODO Auto-generated method stub
 		
-		String query = "from Question where class_id=: c_id and test_id =: t_id";
+		String query = "from Question where class_id=: c_id and test_no =: t_id";
 		return (List<Question>) this.hibernateTemplate.findByNamedParam(query, new String[] {"c_id","t_id" }, new Object[] {class_id,test_no});
 				
 	}

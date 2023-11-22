@@ -19,6 +19,16 @@ public class UserInputDao {
 
 	}
 	
+	@Transactional
+	public boolean saveAnswers(List<UserInput> userinputList) {
+		// TODO Auto-generated method stub
+		
+		for (UserInput userInput : userinputList) {
+			this.hibernateTemplate.save(userInput);
+		}
+		return true;
+	}
+	
 	public List<UserInput> getUserInputById(int u_id) {
 		// TODO Auto-generated method stub
 
@@ -40,4 +50,6 @@ public class UserInputDao {
 	public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
 		this.hibernateTemplate = hibernateTemplate;
 	}
+
+	
 }

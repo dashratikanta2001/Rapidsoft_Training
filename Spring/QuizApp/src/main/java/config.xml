@@ -37,7 +37,7 @@
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL57Dialect</prop>
-				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.show_sql">false</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 
 			</props>
@@ -51,6 +51,7 @@
 				<value>com.quiz.entity.Option</value>
 				<value>com.quiz.entity.Question</value>
 				<value>com.quiz.entity.UserInput</value>
+				<value>com.quiz.entity.TestNo</value>
 			</list>
 
 		</property>
@@ -84,6 +85,11 @@
 	</bean>
 	
 	<bean class="com.quiz.dao.UserInputDao" name="userInputDao">
+
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+
+	</bean>
+	<bean class="com.quiz.dao.TestNoDao" name="testNoDao">
 
 		<property name="hibernateTemplate" ref="hibernateTemplate" />
 

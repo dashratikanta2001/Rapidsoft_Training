@@ -70,8 +70,17 @@ public class OptionDao {
 
 		String query = "from Option where question_id=: que_id and isAnswer = true";
 
+		Option op=new Option() ;
 		 List<Option> ans = (List<Option>) this.hibernateTemplate.findByNamedParam(query, "que_id", q_id);
-		return ans.get(0);
+		 
+		 for (Option option : ans) {
+//			System.out.println("OPTION = = = == "+ option.getQ_option());
+//			System.out.println(ans.indexOf(option));
+			op=option;
+		}
+		 
+		 
+		return op;
 		
 //		Option ans= new Option();
 //		Question q = this.hibernateTemplate.get(Question.class, q_id);

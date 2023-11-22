@@ -1,10 +1,15 @@
 package com.quiz.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -26,9 +31,13 @@ public class User {
 	
 	@Column(name = "user_class")
 	private int user_class;
+	
+//	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	private List<TestNo> test;
 
-	@Column(name = "isRechecked",columnDefinition = "boolean default false")
-	private boolean isRechecked;
+//	@Column(name = "isRechecked",columnDefinition = "boolean default false")
+//	private boolean isRechecked;
 
 	public User() {
 		super();
@@ -40,7 +49,7 @@ public class User {
 		this.name = name;
 		this.rollNo = rollNo;
 		this.user_class = user_class;
-		this.isRechecked = isRechecked;
+//		this.isRechecked = isRechecked;
 	}
 
 	public String getEmail() {
@@ -75,13 +84,13 @@ public class User {
 		this.user_class = user_class;
 	}
 
-	public boolean isRechecked() {
-		return isRechecked;
-	}
-
-	public void setRechecked(boolean isRechecked) {
-		this.isRechecked = isRechecked;
-	}
+//	public boolean isRechecked() {
+//		return isRechecked;
+//	}
+//
+//	public void setRechecked(boolean isRechecked) {
+//		this.isRechecked = isRechecked;
+//	}
 
 	public int getId() {
 		return id;

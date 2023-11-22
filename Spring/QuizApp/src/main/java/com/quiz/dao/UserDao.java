@@ -21,8 +21,8 @@ public class UserDao {
 		// TODO Auto-generated method stub
 //		boolean isSave=false;
 		try {
-			System.out.println(user.getEmail() + " : " + user.getName() + " : " + user.getRollNo() + " : "
-					+ user.getUser_class() + " : " + user.getId() + user.isRechecked() + " : ");
+//			System.out.println(user.getEmail() + " : " + user.getName() + " : " + user.getRollNo() + " : "
+//					+ user.getUser_class() + " : " + user.getId() + user.isRechecked() + " : ");
 
 			this.hibernateTemplate.save(user);
 //   		this.sessionFactory.getCurrentSession().save(user);
@@ -38,14 +38,28 @@ public class UserDao {
 
 	}
 
-	@SuppressWarnings("deprecation")
-	public boolean isUserAvailable(String email) {
+//	public boolean isUserAvailable(String email) {
+//		// TODO Auto-generated method stub
+//		String hql = "select count(*) FROM User WHERE email = :userEmail";
+//		List<Long> user = (List<Long>) hibernateTemplate.findByNamedParam(hql, "userEmail", email);
+//
+//
+//		return !user.isEmpty() && user.get(0) >0;
+//
+//	}
+	
+	public User isUserAvailable(String email) {
 		// TODO Auto-generated method stub
-		String hql = "select count(*) FROM User WHERE email = :userEmail";
-		List<Long> user = (List<Long>) hibernateTemplate.findByNamedParam(hql, "userEmail", email);
-
-
-		return !user.isEmpty() && user.get(0) >0;
+		String query = "from User where email = :userEmail";
+		List<User> user = (List<User>) this.hibernateTemplate.findByNamedParam(query, "userEmail", email);
+		
+		if(user.isEmpty())
+		{
+			return null;
+		}
+		else {
+			return user.get(0);
+		}
 
 	}
 	
@@ -56,6 +70,14 @@ public class UserDao {
 		return  (User) this.hibernateTemplate.findByNamedParam(query, "userEmail", user_email).get(0);
 		
 		
+	}
+	
+	public List<User> getUserDetailsByClass(int userClass) {
+		// TODO Auto-generated method stub
+		String query = "from User where user_class=:user_class";
+		
+		return (List<User>) this.hibernateTemplate.findByNamedParam(query, "user_class", userClass);
+
 	}
 
 	public HibernateTemplate getHibernateTemplate() {

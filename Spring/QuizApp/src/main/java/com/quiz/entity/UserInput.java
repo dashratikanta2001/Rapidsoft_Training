@@ -19,8 +19,12 @@ public class UserInput {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userInput_id;
 
-	@Column(columnDefinition = "int default 1")
+	@Column(columnDefinition = "int default 1",  name = "test_no")
 	private int test_id;
+	
+//	@OneToOne
+//	@JoinColumn(name = "test_id")
+//	private TestNo test;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
