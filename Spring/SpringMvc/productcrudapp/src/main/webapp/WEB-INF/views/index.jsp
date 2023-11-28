@@ -9,9 +9,18 @@
 
 <%@include file="./base.jsp"%>
 
+<style>
+td a i {
+	transition: transform 0.3s ease-in-out;
+}
+
+td a i:hover {
+	transform: scale(1.5);
+}
+</style>
+
 </head>
 <body>
-
 	<div class="container mt-3">
 		<div class="row">
 			<div class="col-md-12">
@@ -29,19 +38,20 @@
 						</tr>
 					</thead>
 					<tbody>
-					<c:forEach items="${products }" var="p">
-						<tr>
-							<th scope="row">PROD${p.id }</th>
-							<td>${p.name }</td>
-							<td>${p.description }</td>
-							<td class="font-weight-bold">&#8377; ${p.price }</td>
-							<td>
-								<a href="delete/${p.id }"><i class="fa-solid fa-trash-can text-danger"></i></a>
-							</td>
-						</tr>
-					
-					</c:forEach>
-						
+						<c:forEach items="${products }" var="p">
+							<tr>
+								<th scope="row">PROD${p.id }</th>
+								<td>${p.name }</td>
+								<td>${p.description }</td>
+								<td class="font-weight-bold">&#8377; ${p.price }</td>
+								<td><a href="update/${p.id }"><i
+										class="fa-solid fa-pen-to-square text-primary mx-1"></i></a> <a
+									href="delete/${p.id }"><i
+										class="fa-solid fa-trash-can text-danger mx-1"></i></a></td>
+							</tr>
+
+						</c:forEach>
+
 					</tbody>
 				</table>
 

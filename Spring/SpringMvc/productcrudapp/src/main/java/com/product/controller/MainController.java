@@ -49,6 +49,17 @@ public class MainController {
 
 		return redirectView;
 	}
+	
+	
+	//Update product
+	
+	@RequestMapping("/update/{productId}")
+	public String updateForm(@PathVariable("productId") int pid, Model m)
+	{
+		Product product = this.productDao.getProduct(pid);
+		m.addAttribute("product",product);
+		return "update_form";
+	}
 
 	// delete handler
 	@RequestMapping("/delete/{productId}")

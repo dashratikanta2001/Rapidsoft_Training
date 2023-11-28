@@ -19,7 +19,7 @@ public class ProductDao {
 	// create
 	@Transactional
 	public void createProduct(Product product) {
-		this.hibernateTemplate.save(product);
+		this.hibernateTemplate.saveOrUpdate(product);
 	}
 
 	// get all product
@@ -32,7 +32,7 @@ public class ProductDao {
 
 	// get the single product
 	public Product getProduct(int pid) {
-		return this.hibernateTemplate.load(Product.class, pid);
+		return this.hibernateTemplate.get(Product.class, pid);
 	}
 
 	// delete the single product
