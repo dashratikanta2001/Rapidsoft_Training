@@ -1,10 +1,32 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<body style="background: darkslategray !important;">
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<style>
+.card-img-top {
+	height: 200px;
+}
+
+.card {
+	min-height: 50vh;
+}
+</style>
+
+<%@include file="./plugins.jsp"%>
+
+</head>
+
+<body>
 
 	<!-- Navbar Started -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<a class="navbar-brand" href="#">Quiz App</a>
+		<a class="navbar-brand ml-5" href="#">Quiz App</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarNav" aria-controls="navbarNav"
 			aria-expanded="false" aria-label="Toggle navigation">
@@ -14,8 +36,9 @@
 			<ul class="navbar-nav m-auto">
 				<li class="nav-item active"><a class="nav-link" href="#">Home</a>
 				</li>
-				<li class="nav-item"><a class="nav-link" href="#">Start
-						Assessment</a></li>
+				<li class="nav-item"><a class="nav-link"
+					href="start-assessment" data-toggle="modal"
+					data-target="#exampleModalCenter">Start Assessment</a></li>
 				<li class="nav-item dropdown"><a
 					class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 					role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -26,65 +49,128 @@
 							class="dropdown-item text-white" href="#">Apply for Recheck</a>
 					</div></li>
 			</ul>
+
+			<ul class="navbar-nav ">
+				<li class="nav-item"><a class="nav-link" href="#">Admin</a></li>
+			</ul>
 		</div>
 	</nav>
 
 	<!-- Navbar Ended -->
+	<!-- Your page content goes here -->
+	
+	<c:if test="${msg }]">
+	<h1>Hello</h1>
+	</c:if>
+	
 	<div class="container mt-4">
-		<!-- Your page content goes here -->
-		<div class="container mt-4">
-			<div class="row text-center" >
-				<div class="col-md-4 mb-4">
-					<div class="card ">
-						<img src='<c:url value="/resources/images/assessment-image.jpeg"/>' class="card-img-top"
-							alt="Card Image">
-						<div class="card-body">
-							<h5 class="card-title">Get Ready to Begin Your Assessment!</h5>
-							<p class="card-text">Embark on your journey to knowledge and discovery. Click the button below to start your assessment and unlock a world of learning.</p>
-							<a href="#" class="btn btn-primary">Start Assessment</a>
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModalCenter" tabindex="-1"
+			role="dialog" aria-labelledby="exampleModalCenterTitle"
+			aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<form action="startAssessment" method="post">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLongTitle">Enter
+								Email Id to start assessment</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
 						</div>
+						<div class="modal-body">
+						<h2 class="text-danger">${msg }</h2>
+							<div class="form-group">
+								<label for="exampleInputEmail1 ">Email address</label> <input
+									required type="email" class="form-control"
+									id="exampleInputEmail1" aria-describedby="emailHelp"
+									placeholder="Enter email" name="email"> <small
+									id="emailHelp" class="form-text text-muted">We'll never
+									share your email with anyone else.</small>
+							</div>
+							<div class="form-group">
+							<c:forEach items="${test }">
+								${test }
+							</c:forEach>
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-primary">Start
+								assessment</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal closed here -->
+
+		<div class="row">
+			<div class="col-md-4 mb-4">
+				<div class="card ">
+					<img src='<c:url value="/resources/images/assessment-image.jpeg"/>'
+						class="card-img-top" alt="Card Image">
+					<div class="card-body">
+						<h5 class="card-title">Get Ready to Begin Your Assessment!</h5>
+						<p class="card-text">Embark on your journey to knowledge and
+							discovery. Click the button below to start your assessment and
+							unlock a world of learning.</p>
+					</div>
+					<div class="card-footer text-center">
+						<a href="startAssessment" class="btn btn-success" data-toggle="modal"
+					data-target="#exampleModalCenter">Start
+							Assessment</a>
+
 					</div>
 				</div>
+			</div>
 
-				<div class="col-md-4 mb-4">
-					<div class="card">
-						<img src='<c:url value="/resources/images/result-image.jpeg"/>' class="card-img-top"
-							alt="Card Image">
-						<div class="card-body">
-							<h5 class="card-title">Your Assessment Results</h5>
-							<p class="card-text">Congratulations on completing the assessment! Your results are now available.</p>
-							<a href="#" class="btn btn-primary">View Results</a>
-						</div>
+			<div class="col-md-4 mb-4">
+				<div class="card">
+					<img src='<c:url value="/resources/images/result-image.jpeg"/>'
+						class="card-img-top" alt="Card Image">
+					<div class="card-body">
+						<h5 class="card-title">Your Assessment Results</h5>
+						<p class="card-text">Congratulations on completing the
+							assessment! Your results are now available.</p>
+					</div>
+					<div class="card-footer text-center">
+						<a href="#" class="btn btn-primary">View Results</a>
 					</div>
 				</div>
+			</div>
 
-				<div class="col-md-4 mb-4">
-					<div class="card">
-						<img src="https://via.placeholder.com/150" class="card-img-top"
-							alt="Card Image">
-						<div class="card-body">
-							<h5 class="card-title">Card 3</h5>
-							<p class="card-text">This is some sample content for Card 3.
-								You can add more details here.</p>
-							<a href="#" class="btn btn-primary">Learn More</a>
-						</div>
+			<div class="col-md-4 mb-4">
+				<div class="card">
+					<img src='<c:url value="/resources/images/recheck-image.png"/>'
+						class="card-img-top" alt="Card Image">
+					<div class="card-body">
+						<h5 class="card-title">Recheck Your Assessment</h5>
+						<p class="card-text">If you believe there might be an error or
+							would like a reevaluation, you can apply for a recheck of your
+							assessment.</p>
+					</div>
+					<div class="card-footer text-center">
+						<a href="#" class="btn btn-primary">Apply for Recheck</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<footer class="footer">
+	<footer class="footer"
+		style="background-color: rgba(255, 255, 255, 0.7);">
 		<div class="container text-center">
-			<p>&copy; 2023 Your Website. All rights reserved.</p>
+			<p>
+				&copy; 2023 <a href="home">Quizapp.</a> All rights reserved.
+			</p>
 		</div>
 	</footer>
 
-	<!-- Bootstrap JS and dependencies -->
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
+</html>

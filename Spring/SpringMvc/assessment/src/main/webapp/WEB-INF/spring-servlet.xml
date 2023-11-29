@@ -39,7 +39,7 @@
 		<property name="driverClassName"
 			value="com.mysql.cj.jdbc.Driver" />
 		<property name="url"
-			value="jdbc:mysql://localhost:3306/testing" />
+			value="jdbc:mysql://localhost:3306/springQuiz" />
 		<property name="username" value="root" />
 		<property name="password" value="Admin@123" />
 
@@ -66,7 +66,12 @@
 		<property name="annotatedClasses">
 
 			<list>
-				<!-- <value>com.product.entity.Product</value> -->
+			<value>com.assessment.entity.Option</value>
+			<value>com.assessment.entity.Question</value>
+			<value>com.assessment.entity.TestNo</value>
+			<value>com.assessment.entity.User</value>
+			<value>com.assessment.entity.UserInput</value>
+				
 			</list>
 
 		</property>
