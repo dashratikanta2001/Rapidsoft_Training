@@ -24,6 +24,7 @@
 
 <body>
 
+<c:set var="actionURL" value="newActionURL" />
 	<!-- Navbar Started -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<a class="navbar-brand ml-5" href="#">Quiz App</a>
@@ -36,15 +37,16 @@
 			<ul class="navbar-nav m-auto">
 				<li class="nav-item active"><a class="nav-link" href="#">Home</a>
 				</li>
-				<li class="nav-item"><a class="nav-link"
-					href="start-assessment" data-toggle="modal"
+				<li class="nav-item"><a href="#" class="nav-link" onclick="startAssessment()"
+					 data-toggle="modal"
 					data-target="#exampleModalCenter">Start Assessment</a></li>
 				<li class="nav-item dropdown"><a
 					class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 					role="button" data-toggle="dropdown" aria-haspopup="true"
 					aria-expanded="false"> Result </a>
 					<div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item text-white" href="#">Result by ID</a> <a
+						<a class="dropdown-item text-white" onclick="resultById()" href="#"  data-toggle="modal"
+					data-target="#exampleModalCenter">Result by ID</a> <a
 							class="dropdown-item text-white" href="#">Result by Class</a> <a
 							class="dropdown-item text-white" href="#">Apply for Recheck</a>
 					</div></li>
@@ -58,11 +60,16 @@
 
 	<!-- Navbar Ended -->
 	<!-- Your page content goes here -->
-	
-	<c:if test="${msg }]">
-	<h1>Hello</h1>
+
+	<c:if test="${not empty msg }">
+		<script>
+			$(document).ready(function() {
+				var msgg ="${msg}";
+				alert(msgg);
+			});
+		</script>
 	</c:if>
-	
+
 	<div class="container mt-4">
 		<!-- Modal -->
 		<div class="modal fade" id="exampleModalCenter" tabindex="-1"
@@ -70,17 +77,15 @@
 			aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content">
-					<form action="startAssessment" method="post">
+					<form  method="post" id="assessmentForm">
 						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLongTitle">Enter
-								Email Id to start assessment</h5>
+							<h5 class="modal-title" id="exampleModalLongTitle"></h5>
 							<button type="button" class="close" data-dismiss="modal"
 								aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
 						<div class="modal-body">
-						<h2 class="text-danger">${msg }</h2>
 							<div class="form-group">
 								<label for="exampleInputEmail1 ">Email address</label> <input
 									required type="email" class="form-control"
@@ -89,8 +94,17 @@
 									id="emailHelp" class="form-text text-muted">We'll never
 									share your email with anyone else.</small>
 							</div>
+							<div class="form-group" id="testnodiv">
+								<label for="inputState">Select Test No</label> <select id="inputState"
+									name="testNo" class="form-control">
+									<option selected>1</option>
+									<option>2</option>
+									<option>3</option>
+									<option>4</option>
+								</select>
+							</div>
 							<div class="form-group">
-							<c:forEach items="${test }">
+								<c:forEach items="${test }">
 								${test }
 							</c:forEach>
 							</div>
@@ -99,17 +113,18 @@
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
 								data-dismiss="modal">Close</button>
-							<button type="submit" class="btn btn-primary">Start
+							<button type="submit" class="btn btn-primary" id="modalSubmit">Start
 								assessment</button>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
+		<c:set var="msg" value="" scope="request" />
 
 		<!-- Modal closed here -->
 
-		<div class="row">
+		<div class="row mb-5">
 			<div class="col-md-4 mb-4">
 				<div class="card ">
 					<img src='<c:url value="/resources/images/assessment-image.jpeg"/>'
@@ -121,8 +136,8 @@
 							unlock a world of learning.</p>
 					</div>
 					<div class="card-footer text-center">
-						<a href="startAssessment" class="btn btn-success" data-toggle="modal"
-					data-target="#exampleModalCenter">Start
+						<a href="#" class="btn btn-success "
+							data-toggle="modal" data-target="#exampleModalCenter" onclick="startAssessment()">Start
 							Assessment</a>
 
 					</div>
@@ -139,7 +154,7 @@
 							assessment! Your results are now available.</p>
 					</div>
 					<div class="card-footer text-center">
-						<a href="#" class="btn btn-primary">View Results</a>
+						<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" onclick="resultById()">View Results</a>
 					</div>
 				</div>
 			</div>
@@ -171,6 +186,26 @@
 		</div>
 	</footer>
 
+<script>
 
+function startAssessment() {
+	document.getElementById("testnodiv").style.display = "inline";
+	var form = document.getElementById("assessmentForm");
+	form.action = "startAssessment";
+	document.getElementById("exampleModalLongTitle").innerText="Enter Email Id to start assessment";
+	document.getElementById("modalSubmit").innerText="Start Assesment";
+	
+}
+
+function resultById() {
+	
+	document.getElementById("testnodiv").style.display = "none";
+	var form = document.getElementById("assessmentForm");
+	form.action = "student-result";
+	document.getElementById("exampleModalLongTitle").innerText="Enter Email Id to show result";
+	document.getElementById("modalSubmit").innerText="Show Result";
+
+}
+</script>
 </body>
 </html>

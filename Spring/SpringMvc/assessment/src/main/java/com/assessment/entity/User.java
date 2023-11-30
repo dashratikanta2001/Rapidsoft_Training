@@ -72,6 +72,25 @@ public class User {
 		return "User [id=" + id + ", email=" + email + ", name=" + name + ", rollno=" + rollno + ", user_class="
 				+ user_class + "]";
 	}
+
+	public User(int id) {
+		super();
+		this.id = id;
+	}
+
+	public User(int id, String email, String name, String rollno, int user_class) {
+		super();
+		this.id = id;
+		this.email = email;
+		this.name = name;
+		this.rollno = rollno;
+		this.user_class = user_class;
+	}
+
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	
 	
 }

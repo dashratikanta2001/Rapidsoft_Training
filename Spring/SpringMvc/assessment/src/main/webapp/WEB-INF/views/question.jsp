@@ -11,40 +11,63 @@
 	font-size: 1.3rem;
 }
 </style>
+
+<script>
+        function confirmExit() {
+            var shouldExit = confirm("Are you sure you want to exit the exam?");
+            if (shouldExit) {
+                // Redirect to the home page
+                window.location.href = "/assessment";
+            }
+        }
+    </script>
 </head>
 <body>
 
-	<%-- <div class="container">
-	<h1>${user.id }</h1>
-	<h1>${user.name }</h1>
-	<h1>${user.rollno }</h1>
-	<h1>${user.user_class }</h1>
-	</div> --%>
-<%int qno=1; %>
+<%-- 	<c:forEach var="entry" items="${question.entrySet() }">
+		<h2>${entry.key.question_id}: ${entry.key.question }</h2>
+		<c:forEach items="${entry.value }" var="op">
+			<h4>${op.q_option }</h4>
+		</c:forEach>
+	</c:forEach> --%>
+
+	<%
+	int qno = 1;
+	%>
 	<div class="container">
 		<div class="card">
-			<div class="card-header text-center">
-				<h2 class="card-title">Assignment 1</h2>
+			<div class="card-header text-center bg-secondary">
+				<div class="card-title ">
+				<h1 class="text-white font-weight-bold">Class ${user_class }</h1>
+				<h2 class="text-white">Assignment ${test }</h2>
+				
+				</div>
 			</div>
 			<div class="card-body">
 				<div class="container mt-4">
-					<form>
+					<form action="submitExam" method="post" modelAttribute="examForm">
+					<input type="hidden" value="${test }" name="testNO">
+					<input type="hidden" value="${userId }" name="userId">
 						<ul class="list-group">
-							<c:forEach items="${question }" var="que">
+							<c:forEach var="entry" items="${question.entrySet() }">
 								<!-- Question -->
 								<div class="form-group ">
-									<label for="question">Question:<%= qno++ %> </label>
-									<p class="font-weight-bold">${que.question }</p>
+									<label for="question">Question:<%=qno++%>
+									</label>
+									<p class="font-weight-bold">${entry.key.question }</p>
 									<!-- Options -->
 									<div class="form-check">
-										<c:forEach begin="1" end="4" varStatus="option">
+										<c:forEach items="${entry.value }" var="op">
 											<div class="list-group">
 												<input type="radio" class="form-check-input"
-													id="${option.index }" name="question" required
-													value="option1"> <label for="${option.index }">
-													<a
+													<%-- id="${op.option_id }" name="${entry.key.question_id}" --%>
+													id="${op.option_id }" name="selectedOptions[${entry.key.question_id}]"
+													required value="${op.option_id}"> <label
+													for="${op.option_id}"> <a
 													class="list-group-item list-group-item-action list-group-item-secondary">
-														This is a secondary list group item </a>
+
+														<c:out value="${op.q_option}" escapeXml="true" />
+												</a>
 
 												</label>
 											</div>
@@ -56,7 +79,7 @@
 						</ul>
 						<div class="container text-center">
 							<button type="submit" class="btn btn-primary btn-lg">Submit</button>
-							<button type="submit" class="btn btn-danger btn-lg">Exit</button>
+							<input type="button" class="btn btn-danger btn-lg" value="Exit" onclick="confirmExit()">
 						</div>
 					</form>
 				</div>
