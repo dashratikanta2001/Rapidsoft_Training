@@ -34,4 +34,15 @@ public class UserService {
 			return null;
 		}
 	}
+	
+	
+	public List<Integer> getClassList() {
+		// TODO Auto-generated method stub
+		return this.userDao.getClassList();
+	}
+
+	public List<User> getUserDetailsByClass(int userClass) {
+		// TODO Auto-generated method stub
+		return userDao.getUserDetailsByClass(userClass);
+	}
 }

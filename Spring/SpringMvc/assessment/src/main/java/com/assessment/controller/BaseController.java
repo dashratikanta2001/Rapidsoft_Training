@@ -1,14 +1,20 @@
 package com.assessment.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.assessment.service.UserService;
 
 
 @Controller
 public class BaseController {
-
-//	@Autowired
-//	private UserService userService;
+	
+	
+	@Autowired
+	private UserService userService;
 //
 //	@Autowired
 //	private QuestionService questionService;
@@ -31,6 +37,18 @@ public class BaseController {
 	public String home() {
 		return "index";
 	}
+	
+	@RequestMapping(path = "/student-result", method = RequestMethod.GET)
+	public String showResultByClass(Model m) {
+		// TODO Auto-generated method stub
+		m.addAttribute("classList",userService.getClassList());
+		m.addAttribute("title","Result: Student");
+		
+		return "result-by-class";
+
+	}
+	
+	
 
 //	@RequestMapping("/startAssessment")
 //	public String login() {

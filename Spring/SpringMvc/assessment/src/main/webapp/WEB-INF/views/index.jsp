@@ -47,13 +47,13 @@
 					<div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
 						<a class="dropdown-item text-white" onclick="resultById()" href="#"  data-toggle="modal"
 					data-target="#exampleModalCenter">Result by ID</a> <a
-							class="dropdown-item text-white" href="#">Result by Class</a> <a
+							class="dropdown-item text-white" href="student-result">Result by Class</a> <a
 							class="dropdown-item text-white" href="#">Apply for Recheck</a>
 					</div></li>
 			</ul>
 
 			<ul class="navbar-nav ">
-				<li class="nav-item"><a class="nav-link" href="#">Admin</a></li>
+				<li class="nav-item"><a class="nav-link" href="admin-dashboard">Admin</a></li>
 			</ul>
 		</div>
 	</nav>
@@ -103,11 +103,7 @@
 									<option>4</option>
 								</select>
 							</div>
-							<div class="form-group">
-								<c:forEach items="${test }">
-								${test }
-							</c:forEach>
-							</div>
+							
 
 						</div>
 						<div class="modal-footer">

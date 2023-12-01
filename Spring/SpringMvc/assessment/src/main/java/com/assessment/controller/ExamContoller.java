@@ -1,6 +1,7 @@
 package com.assessment.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import com.assessment.entity.Question;
 import com.assessment.entity.User;
 import com.assessment.entity.UserInput;
 import com.assessment.entity.UserInputAnswer;
+import com.assessment.entity.UserMarks;
 import com.assessment.service.OptionService;
 import com.assessment.service.QuestionService;
 import com.assessment.service.TestService;
@@ -38,13 +40,14 @@ public class ExamContoller {
 
 	@Autowired
 	private TestService testService;
-	
+
 	@Autowired
 	private UserInputService userInputService;
 
-	
 	@RequestMapping(path = "/startAssessment", method = RequestMethod.POST)
-	public String userAvailable(@ModelAttribute("email") String email, @ModelAttribute("testNo") int testNo, Model m , RedirectAttributes attributes) {
+	public String userAvailable(@ModelAttribute("email") String email, @ModelAttribute("testNo") int testNo, Model m,
+			RedirectAttributes attributes) {
+		m.addAttribute("title","Start assesment");
 		Map<Question, List<Option>> queOp = new LinkedHashMap<>();
 		User userDetails = userService.getUserDetails(email);
 		if (userDetails != null) {
@@ -61,8 +64,8 @@ public class ExamContoller {
 
 					m.addAttribute("question", queOp);
 					m.addAttribute("test", testNo);
-					m.addAttribute("user_class",userDetails.getUser_class());
-					m.addAttribute("userId",userDetails.getId());
+					m.addAttribute("user_class", userDetails.getUser_class());
+					m.addAttribute("userId", userDetails.getId());
 					return "question";
 				} else {
 					attributes.addFlashAttribute("msg", "Question is not set for test " + testNo);
@@ -80,71 +83,186 @@ public class ExamContoller {
 	}
 
 	@RequestMapping(path = "/submitExam", method = RequestMethod.POST)
-	public String examSubmit(@ModelAttribute("examForm") UserInputAnswer userInputAnswer, @ModelAttribute("testNO") int testNo, @ModelAttribute("userId") int userId, RedirectAttributes attributes) {
+	public String examSubmit(@ModelAttribute("examForm") UserInputAnswer userInputAnswer,
+			@ModelAttribute("testNO") int testNo, @ModelAttribute("userId") int userId, RedirectAttributes attributes, Model m) {
 
+		m.addAttribute("title","Submit Exam");
+		
 		Map<Integer, Integer> selectedOptions = userInputAnswer.getSelectedOptions();
 		List<UserInput> userinputList = new ArrayList<>();
 		for (Map.Entry<Integer, Integer> entry : selectedOptions.entrySet()) {
 			Integer key = entry.getKey();
 			Integer val = entry.getValue();
 			System.out.println("qno. " + key + " -> OpNo. " + val);
-			
+
 			userinputList.add(new UserInput(testNo, new User(userId), new Question(key), new Option(val)));
-			
+
 		}
-		
+
 		if (userInputService.saveAnswers(userinputList)) {
 			testService.setTestDetails(testNo, userId);
-		}
-		else {
+		} else {
 			attributes.addFlashAttribute("msg", "Test not submitted. Some error occurs");
 			return "redirect:/home";
 		}
-		
 
 		return "redirect:/home";
 	}
-	
-	
+
 	@RequestMapping(path = "/student-result", method = RequestMethod.POST)
-	public String showResultById(@ModelAttribute("email") String email, RedirectAttributes attributes)
-	{
+	public String showResultById(@ModelAttribute("email") String email, RedirectAttributes attributes, Model m) {
+		
+		m.addAttribute("title","Result: Student");
 		User user = userService.getUserDetails(email);
 		if (user != null) {
 			
-			int mark=0;
-			List<Question> questionList = questionService.showQuestion(user.getUser_class(), 1);
-			int totalMark= questionList.size();
+			UserMarks calculateResult = calculateResult(user, attributes,m);
+			m.addAttribute("marks", calculateResult);
 			
-			List<UserInput> userInput = userInputService.getUserInputById(user.getId());
+			return "result";
 			
-			for (UserInput userAnswer : userInput) {
-				
-				for (Question question : questionList) {
-					
-					int questionId = question.getQuestion_id();
-					
-					Option ans = optionService.showAnswer(questionId);
-					
-					if(userAnswer.getOption().getOption_id() == ans.getOption_id())
-					{
-						mark++;
-					}
-				}
-			}
-			
-			
-			
-			
-			
-			attributes.addFlashAttribute("msg",mark);
-			
-//			System.out.println("Email id = "+ email);
-			return "result";		
-		}
-		else {
+//			List<UserMarks.TestDetails> markdetails = new ArrayList<>();
+//			List<UserInput> userInput = userInputService.getUserInputById(user.getId());
+//			
+//			if(!userInput.isEmpty())
+//			{
+//				HashSet<Integer> testGiven = new HashSet<>();
+//				
+//				for (UserInput userInput2 : userInput) {
+//					testGiven.add(userInput2.getTest_id());
+//				}
+//				
+//				
+//				for (Integer testNo : testGiven) {
+//					int mark = 0;
+//					List<Question> questionList = questionService.showQuestion(user.getUser_class(), testNo);
+//					int totalMark = questionList.size();
+//					
+//					if (!userInput.isEmpty()) {
+//						for (UserInput userAnswer : userInput) {
+//							
+//							for (Question question : questionList) {
+//								
+//								int questionId = question.getQuestion_id();
+//								
+//								Option ans = optionService.showAnswer(questionId);
+//								
+//								if (userAnswer.getOption().getOption_id() == ans.getOption_id()) {
+//									mark++;
+//								}
+//							}
+//						}
+//						
+//						String grade = "";
+//						
+//						if (mark / totalMark >= 0.5) {
+//							grade = "Pass";
+//						} else {
+//							grade = "Fail";
+//						}
+//						
+//						markdetails.add(new UserMarks.TestDetails(testNo, totalMark, mark, grade));
+//					}
+//				}
+//				
+//				UserMarks userMarkDetails = new UserMarks(user.getName(), user.getEmail(), user.getUser_class(), markdetails);
+//				
+//				m.addAttribute("marks", userMarkDetails);
+//				
+//			}
+//			else {
+//				m.addAttribute("msg", "No test details found");
+//			}
+//			
+//
+//			return "result";
+		} else {
 			attributes.addFlashAttribute("msg", "Email id does not Exist");
 			return "redirect:/";
 		}
 	}
+	
+	@RequestMapping(path = "/student-result-by-class", method = RequestMethod.POST)
+	public String showResultByClass(@ModelAttribute("stdClass") int userClass ,Model m, RedirectAttributes attributes) {
+		m.addAttribute("title","Result: Student");
+		// TODO Auto-generated method stub
+//		List<User> userDetailsByClass = userService.getUserDetailsByClass(stdClass);
+//		
+//		System.out.println(userDetailsByClass);
+		
+		List<User> userDetailsByClass = userService.getUserDetailsByClass(userClass);
+		List<UserMarks> userMarks = new ArrayList<>();
+		System.out.println(userDetailsByClass.get(0).getId());
+		
+		for (User user : userDetailsByClass) {
+			userMarks.add(calculateResult(user, attributes, m));
+		}
+		
+		m.addAttribute("userList", userMarks);
+		return "result-by-class";
+
+	}
+	
+	private UserMarks calculateResult(User user, RedirectAttributes attributes, Model m) {
+		// TODO Auto-generated method stub
+		List<UserMarks.TestDetails> markdetails = new ArrayList<>();
+		List<UserInput> userInput = userInputService.getUserInputById(user.getId());
+		
+		if(!userInput.isEmpty())
+		{
+			HashSet<Integer> testGiven = new HashSet<>();
+			
+			for (UserInput userInput2 : userInput) {
+				testGiven.add(userInput2.getTest_id());
+			}
+			
+			
+			for (Integer testNo : testGiven) {
+				int mark = 0;
+				List<Question> questionList = questionService.showQuestion(user.getUser_class(), testNo);
+				int totalMark = questionList.size();
+				
+				if (!userInput.isEmpty()) {
+					for (UserInput userAnswer : userInput) {
+						
+						for (Question question : questionList) {
+							
+							int questionId = question.getQuestion_id();
+							
+							Option ans = optionService.showAnswer(questionId);
+							
+							if (userAnswer.getOption().getOption_id() == ans.getOption_id()) {
+								mark++;
+							}
+						}
+					}
+					
+					String grade = "";
+					
+					if (mark / totalMark >= 0.5) {
+						grade = "Pass";
+					} else {
+						grade = "Fail";
+					}
+					
+					markdetails.add(new UserMarks.TestDetails(testNo, totalMark, mark, grade));
+				}
+			}
+			
+			
+		}
+		else {
+			m.addAttribute("msg", "No test details found");
+		}
+		
+		UserMarks userMarkDetails = new UserMarks(user.getName(), user.getEmail(), user.getUser_class(), markdetails);
+		
+		
+		return userMarkDetails;
+//		m.addAttribute("marks", userMarkDetails);
+
+		
+
+	}
+	
 }
