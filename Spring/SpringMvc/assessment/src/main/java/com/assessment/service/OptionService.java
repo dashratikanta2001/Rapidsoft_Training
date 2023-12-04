@@ -26,5 +26,12 @@ public class OptionService {
 		// TODO Auto-generated method stub
 		return optionDao.showAnswer(questionId);
 	}
+
+	public void addOption(Integer questionId, String option, boolean isAnswer) {
+		// TODO Auto-generated method stub
+		
+		optionDao.addOption(questionId, option, isAnswer);
+		
+	}
 	
 }

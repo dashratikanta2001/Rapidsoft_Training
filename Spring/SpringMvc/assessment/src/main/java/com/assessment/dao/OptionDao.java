@@ -48,4 +48,17 @@ public class OptionDao {
 		 
 		return op;
 	}
+
+	@Transactional
+	public void addOption(Integer questionId, String option, boolean isAnswer) {
+		// TODO Auto-generated method stub
+		Question question = this.hibernateTemplate.get(Question.class, questionId);
+		Option op = new Option();
+		op.setAnswer(isAnswer);
+		op.setQ_option(option);
+		op.setQuestion(question);
+		
+		this.hibernateTemplate.saveOrUpdate(op);
+		
+	}
 }

@@ -18,8 +18,8 @@ import com.assessment.entity.Option;
 import com.assessment.entity.Question;
 import com.assessment.entity.User;
 import com.assessment.entity.UserInput;
-import com.assessment.entity.UserInputAnswer;
-import com.assessment.entity.UserMarks;
+import com.assessment.entity.formEntity.UserInputAnswer;
+import com.assessment.entity.formEntity.UserMarks;
 import com.assessment.service.OptionService;
 import com.assessment.service.QuestionService;
 import com.assessment.service.TestService;
@@ -66,7 +66,7 @@ public class ExamContoller {
 					m.addAttribute("test", testNo);
 					m.addAttribute("user_class", userDetails.getUser_class());
 					m.addAttribute("userId", userDetails.getId());
-					return "question";
+					return "start-assesment";
 				} else {
 					attributes.addFlashAttribute("msg", "Question is not set for test " + testNo);
 					return "redirect:/";
@@ -255,11 +255,10 @@ public class ExamContoller {
 			m.addAttribute("msg", "No test details found");
 		}
 		
-		UserMarks userMarkDetails = new UserMarks(user.getName(), user.getEmail(), user.getUser_class(), markdetails);
+		UserMarks userMarkDetails = new UserMarks(user.getName(), user.getEmail(), user.getUser_class(),user.getRollno() ,markdetails);
 		
 		
 		return userMarkDetails;
-//		m.addAttribute("marks", userMarkDetails);
 
 		
 

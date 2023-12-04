@@ -46,6 +46,10 @@
 										<td class="text-left">${marks.name}</td>
 									</tr>
 									<tr>
+										<th scope="row" class="text-left">Student Roll No:</th>
+										<td class="text-left ">${marks.rollno}</td>
+									</tr>
+									<tr>
 										<th scope="row" class="text-left">Student Email id:</th>
 										<td class="text-left ">${marks.email}</td>
 									</tr>

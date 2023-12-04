@@ -97,7 +97,7 @@
 								<tr>
 									<th rowspan="2" scope="col" class="align-middle">#</th>
 									<th rowspan="2" scope="col" class="align-middle">Name</th>
-									<th rowspan="2" scope="col" class="align-middle">Email ID</th>
+									<th rowspan="2" scope="col" class="align-middle">Roll no</th>
 									<th rowspan="2" scope="col" class="align-middle">Class</th>
 									<th colspan="2" scope="colgroup" class="text-center">Ass-1</th>
 									<th colspan="2" scope="colgroup" class="text-center">Ass-2</th>
@@ -124,7 +124,7 @@
 									<tr>
 										<th scope="row"><%=Slno++%></th>
 										<td>${user.name}</td>
-										<td>${user.email}</td>
+										<td>${user.rollno}</td>
 										<td>${user.userClass}</td>
 										<c:forEach var="i" begin="1" end="4">
 

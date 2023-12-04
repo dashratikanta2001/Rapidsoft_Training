@@ -48,7 +48,7 @@
 					</div>
 					
 						<div class="form-group">
-							<label for="class">State</label> <select id="class"
+							<label for="class">Select Class</label> <select id="class"
 								class="form-control" name="user_class" required>
 								<option selected value="">Choose...</option>
 								<option>1</option>

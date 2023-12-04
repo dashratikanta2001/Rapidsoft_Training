@@ -23,6 +23,11 @@
 </head>
 
 <body>
+
+<c:if test="${not empty msg }">
+<script> alert("${msg}")</script>
+</c:if>
+
 	<div class="container mt-4">
 		<div class="row mb-5 justify-content-center">
 			<div class="container text-center">
