@@ -16,6 +16,10 @@
 .card {
 	min-height: 50vh;
 }
+.auto-resize-textarea {
+            resize: none;
+            overflow-y: hidden; /* Hide vertical scrollbar */
+        }
 </style>
 
 <%@include file="./plugins.jsp"%>
@@ -34,8 +38,8 @@
 					<label for="inputState">Select Class to add question</label> <select
 						id="inputState" name="selectedClass" class="form-control" required>
 						<option value="">Select Class</option>
-						<c:forEach var="i" begin="1" end="10">
-							<option>${i }</option>
+						<c:forEach items="${classList}" var="classno">
+							<option>${classno }</option>	
 						</c:forEach>
 					</select>
 				</div>
@@ -52,8 +56,8 @@
 				<div class="container text-center">
 					<input type="submit" class="btn btn-primary" value="Select Class">
 					<a href="/assessment/admin-dashboard"> <input type="button"
-					class="btn btn-danger " value="Home">
-				</a>
+						class="btn btn-danger " value="Home">
+					</a>
 				</div>
 			</form>
 		</div>
@@ -61,24 +65,24 @@
 
 		<!-- ADDING QUESTION -->
 		<c:if test="${not empty selectedClass && not empty selectedTestNo}">
-		<script >
-		document.getElementById("classSelector").style.display = "none";
-		</script>
+			<script>
+				document.getElementById("classSelector").style.display = "none";
+			</script>
 			<div class="card">
-			<div class="card-header">
-			<h2>Class : ${ selectedClass}</h2>
-			<h2>Test No: ${selectedTestNo }</h2>
-			</div>
+				<div class="card-header">
+					<h2>Class : ${ selectedClass}</h2>
+					<h2>Test No: ${selectedTestNo }</h2>
+				</div>
 				<form action="add-Question" method="post" name="setQuestionOption">
-				<input type="hidden" name="classNo" value="${ selectedClass}">
-				<input type="hidden" name="testNo" value="${ selectedTestNo}">
+					<input type="hidden" name="classNo" value="${ selectedClass}">
+					<input type="hidden" name="testNo" value="${ selectedTestNo}">
 					<div class="card-body">
 						<div id="questionForm">
 							<div class="form-group questionGroup" id="questionGroup">
 								<div class="form-group">
-									<label for="question" id="lebelQ">Question 1:</label> <input
-										type="text" class="form-control" id="question"
-										name="question[0]" required>
+									<label for="question" id="lebelQ">Question 1:</label> <textarea
+										 class="form-control auto-resize-textarea" id="question" 
+										name="question[0]" required></textarea>
 								</div>
 
 								<div class="input-group mb-3">
@@ -142,8 +146,8 @@
 							<c:set var="questionNo" value="${questionNo+1 }" />
 							<button type="submit" class="btn btn-success">Submit</button>
 							<a href="/assessment/admin-dashboard"> <input type="button"
-					class="btn btn-danger" value="Home">
-				</a>
+								class="btn btn-danger" value="Home">
+							</a>
 
 						</div>
 					</div>
@@ -165,7 +169,7 @@
 
 			// Reset the values of the cloned elements
 			const inputElements = clonedQuestionGroup
-					.querySelectorAll('input[type="text"], input[type="radio"]');
+					.querySelectorAll('input[type="text"], input[type="radio"],textarea');
 			inputElements.forEach(function(inputElement) {
 
 				if (inputElement.type === 'radio') {
@@ -177,19 +181,25 @@
 				}
 			});
 			const questionval = clonedQuestionGroup
-					.querySelector('input[id="question"]');
+					.querySelector('textarea[id="question"]');
 			questionval.setAttribute('name', "question[" + questionCounter
 					+ "]");
 
-			var qno=1+questionCounter;
+			var qno = 1 + questionCounter;	
 			const clonedQuestionLabel = clonedQuestionGroup
 					.querySelector('label[for="question"]');
-			clonedQuestionLabel.textContent = 'Question ' + qno
-					+ ':';
+			clonedQuestionLabel.textContent = 'Question ' + qno + ':';
 
 			// Append the cloned group to the document
 			$("#questionForm").append(clonedQuestionGroup);
 		}
+		
+		
+        // Add an event listener to the textarea for input changes
+        $('.auto-resize-textarea').on('input', function () {
+            this.style.height = 'auto'; // Reset height to auto
+            this.style.height = (this.scrollHeight) + 'px'; // Set the height based on content
+        });
 	</script>
 </body>
 </html>

@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.assessment.entity.Question;
+import com.assessment.entity.TestNo;
 import com.assessment.entity.User;
 import com.assessment.entity.formEntity.SetQuestionOption;
 import com.assessment.service.OptionService;
 import com.assessment.service.QuestionService;
+import com.assessment.service.TestService;
 import com.assessment.service.UserService;
 
 @Controller
@@ -28,6 +30,9 @@ public class AdminController {
 
 	@Autowired
 	private OptionService optionService;
+	
+	@Autowired
+	private TestService testService;
 
 	@RequestMapping("/admin-dashboard")
 	public String adminHome(Model m) {
@@ -37,6 +42,7 @@ public class AdminController {
 
 	@RequestMapping("/add-question")
 	public String addQuestion(Model m) {
+		m.addAttribute("classList",userService.getClassList());
 		m.addAttribute("title", "Add Question");
 		return "add-question";
 	}
@@ -48,7 +54,8 @@ public class AdminController {
 	}
 
 	@RequestMapping(path = "/add-user", method = RequestMethod.POST)
-	public String addUser(@ModelAttribute("user") User user) {
+	public String addUser(@ModelAttribute("user") User user, Model m) {
+		m.addAttribute("title","Add User");
 		System.out.println(user.getName());
 		System.out.println(user.getEmail());
 		System.out.println(user.getRollno());
@@ -61,7 +68,8 @@ public class AdminController {
 
 	@RequestMapping(path = "/select-class", method = RequestMethod.POST)
 	public String selectClass(@ModelAttribute("selectedClass") int selectedClass,
-			@ModelAttribute("selectedTestNo") int selectedTestNo, RedirectAttributes attributes) {
+			@ModelAttribute("selectedTestNo") int selectedTestNo, RedirectAttributes attributes, Model m) {
+		m.addAttribute("title","Select Class for Result");
 		System.out.println("Selected Class = " + selectedClass);
 		System.out.println("Selected test no = " + selectedTestNo);
 
@@ -72,8 +80,8 @@ public class AdminController {
 
 	@RequestMapping(path = "/add-Question", method = RequestMethod.POST)
 	public String addQuestion(@ModelAttribute("setQuestionOption") SetQuestionOption setQuestionOption,
-			RedirectAttributes attributes) {
-
+			RedirectAttributes attributes, Model m) {
+		m.addAttribute("title","Add Question");
 		int testNo = setQuestionOption.getClassNo();
 		int classNo = setQuestionOption.getTestNo();
 
@@ -105,5 +113,14 @@ public class AdminController {
 		attributes.addFlashAttribute("msg", "Question set successfully");
 
 		return "redirect:/admin-dashboard";
+	}
+	
+	
+	@RequestMapping("/recheck-list")
+	public String recheckList(Model m)
+	{
+		List<TestNo> recheckList = testService.getAllRecheckList();
+		m.addAttribute("recheckList",recheckList);
+		return "recheck";
 	}
 }

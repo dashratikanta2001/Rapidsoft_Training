@@ -65,6 +65,20 @@
 					</div>
 				</div>
 			</div>
+			
+			<div class="col-md-4 mb-4">
+				<div class="card">
+					<img src='<c:url value="/resources/images/recheck-image.jpeg"/>'
+						class="card-img-top" alt="Card Image">
+					<div class="card-body">
+						<h3 class="card-title text-center">See Recheck List</h3>
+
+					</div>
+					<div class="card-footer text-center">
+						<a href="recheck-list" class="btn btn-primary">Recheck list</a>
+					</div>
+				</div>
+			</div>
 
 
 		</div>

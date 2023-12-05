@@ -10,12 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.assessment.entity.Option;
 import com.assessment.entity.Question;
+import com.assessment.entity.TestNo;
 import com.assessment.entity.User;
 import com.assessment.entity.UserInput;
 import com.assessment.entity.formEntity.UserInputAnswer;
@@ -47,7 +49,7 @@ public class ExamContoller {
 	@RequestMapping(path = "/startAssessment", method = RequestMethod.POST)
 	public String userAvailable(@ModelAttribute("email") String email, @ModelAttribute("testNo") int testNo, Model m,
 			RedirectAttributes attributes) {
-		m.addAttribute("title","Start assesment");
+		m.addAttribute("title", "Start assesment");
 		Map<Question, List<Option>> queOp = new LinkedHashMap<>();
 		User userDetails = userService.getUserDetails(email);
 		if (userDetails != null) {
@@ -84,10 +86,11 @@ public class ExamContoller {
 
 	@RequestMapping(path = "/submitExam", method = RequestMethod.POST)
 	public String examSubmit(@ModelAttribute("examForm") UserInputAnswer userInputAnswer,
-			@ModelAttribute("testNO") int testNo, @ModelAttribute("userId") int userId, RedirectAttributes attributes, Model m) {
+			@ModelAttribute("testNO") int testNo, @ModelAttribute("userId") int userId, RedirectAttributes attributes,
+			Model m) {
 
-		m.addAttribute("title","Submit Exam");
-		
+		m.addAttribute("title", "Submit Exam");
+
 		Map<Integer, Integer> selectedOptions = userInputAnswer.getSelectedOptions();
 		List<UserInput> userinputList = new ArrayList<>();
 		for (Map.Entry<Integer, Integer> entry : selectedOptions.entrySet()) {
@@ -111,16 +114,16 @@ public class ExamContoller {
 
 	@RequestMapping(path = "/student-result", method = RequestMethod.POST)
 	public String showResultById(@ModelAttribute("email") String email, RedirectAttributes attributes, Model m) {
-		
-		m.addAttribute("title","Result: Student");
+
+		m.addAttribute("title", "Result: Student");
 		User user = userService.getUserDetails(email);
 		if (user != null) {
-			
-			UserMarks calculateResult = calculateResult(user, attributes,m);
+
+			UserMarks calculateResult = calculateResult(user, attributes, m);
 			m.addAttribute("marks", calculateResult);
-			
+
 			return "result";
-			
+
 //			List<UserMarks.TestDetails> markdetails = new ArrayList<>();
 //			List<UserInput> userInput = userInputService.getUserInputById(user.getId());
 //			
@@ -181,87 +184,118 @@ public class ExamContoller {
 			return "redirect:/";
 		}
 	}
-	
+
 	@RequestMapping(path = "/student-result-by-class", method = RequestMethod.POST)
-	public String showResultByClass(@ModelAttribute("stdClass") int userClass ,Model m, RedirectAttributes attributes) {
-		m.addAttribute("title","Result: Student");
+	public String showResultByClass(@ModelAttribute("stdClass") int userClass, Model m, RedirectAttributes attributes) {
+		m.addAttribute("title", "Result: Student");
 		// TODO Auto-generated method stub
 //		List<User> userDetailsByClass = userService.getUserDetailsByClass(stdClass);
 //		
 //		System.out.println(userDetailsByClass);
-		
+
 		List<User> userDetailsByClass = userService.getUserDetailsByClass(userClass);
 		List<UserMarks> userMarks = new ArrayList<>();
 		System.out.println(userDetailsByClass.get(0).getId());
-		
+
 		for (User user : userDetailsByClass) {
 			userMarks.add(calculateResult(user, attributes, m));
 		}
-		
+
 		m.addAttribute("userList", userMarks);
 		return "result-by-class";
 
 	}
-	
+
+	@RequestMapping(path = "/recheck-apply", method = RequestMethod.POST)
+	public String recheckShowMarks(@ModelAttribute("email") String email, @ModelAttribute("testNo") int testNo,
+			RedirectAttributes attributes, Model m) {
+		User user = userService.getUserDetails(email);
+		if (user != null) {
+
+			if (testService.isTestGiven(user.getId(), testNo)) {
+				TestNo rechecked = testService.isRechecked(user.getId(), testNo);
+
+				if (rechecked != null) {
+					testService.setRechecked(rechecked);
+					attributes.addFlashAttribute("msg",
+							"Thank you for apply. your application will be reviewed shortly.");
+					return "redirect:/";
+				} else {
+					attributes.addFlashAttribute("msg", "You have already applied for recheck.");
+					return "redirect:/";
+				}
+			} else {
+				attributes.addFlashAttribute("msg", "Test " + testNo + " Not given");
+				return "redirect:/";
+			}
+
+		} else {
+			attributes.addFlashAttribute("msg", "Email id does not Exist");
+			return "redirect:/";
+		}
+	}
+
+	/*
+	 * @RequestMapping(path = "/apply-recheck/{email}/{testNo}") public String
+	 * recheckApply(@PathVariable String email, @PathVariable int testNo
+	 * ,RedirectAttributes attributes, Model m) {
+	 * System.out.println("Successfully applied for recheck"+ email + " : "+testNo);
+	 * return "recheck"; // return "redirect:/recheck-apply"; }
+	 */
+
 	private UserMarks calculateResult(User user, RedirectAttributes attributes, Model m) {
 		// TODO Auto-generated method stub
 		List<UserMarks.TestDetails> markdetails = new ArrayList<>();
 		List<UserInput> userInput = userInputService.getUserInputById(user.getId());
-		
-		if(!userInput.isEmpty())
-		{
+
+		if (!userInput.isEmpty()) {
 			HashSet<Integer> testGiven = new HashSet<>();
-			
+
 			for (UserInput userInput2 : userInput) {
 				testGiven.add(userInput2.getTest_id());
 			}
-			
-			
+
 			for (Integer testNo : testGiven) {
 				int mark = 0;
 				List<Question> questionList = questionService.showQuestion(user.getUser_class(), testNo);
 				int totalMark = questionList.size();
-				
+
 				if (!userInput.isEmpty()) {
 					for (UserInput userAnswer : userInput) {
-						
+
 						for (Question question : questionList) {
-							
+
 							int questionId = question.getQuestion_id();
-							
+
 							Option ans = optionService.showAnswer(questionId);
-							
+
 							if (userAnswer.getOption().getOption_id() == ans.getOption_id()) {
 								mark++;
 							}
 						}
 					}
-					
+
 					String grade = "";
-					
+
 					if (mark / totalMark >= 0.5) {
 						grade = "Pass";
 					} else {
 						grade = "Fail";
 					}
-					
+
 					markdetails.add(new UserMarks.TestDetails(testNo, totalMark, mark, grade));
 				}
 			}
-			
-			
-		}
-		else {
+
+		} else {
 			m.addAttribute("msg", "No test details found");
 		}
-		
-		UserMarks userMarkDetails = new UserMarks(user.getName(), user.getEmail(), user.getUser_class(),user.getRollno() ,markdetails);
-		
-		
+
+		UserMarks userMarkDetails = new UserMarks(user.getName(), user.getEmail(), user.getUser_class(),
+				user.getRollno(), markdetails);
+
 		return userMarkDetails;
 
-		
-
 	}
-	
+
 }

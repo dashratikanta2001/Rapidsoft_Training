@@ -48,7 +48,8 @@
 						<a class="dropdown-item text-white" onclick="resultById()" href="#"  data-toggle="modal"
 					data-target="#exampleModalCenter">Result by ID</a> <a
 							class="dropdown-item text-white" href="student-result">Result by Class</a> <a
-							class="dropdown-item text-white" href="#">Apply for Recheck</a>
+							class="dropdown-item text-white" onclick="applyRecheck()" href="#" data-toggle="modal"
+					data-target="#exampleModalCenter">Apply for Recheck</a>
 					</div></li>
 			</ul>
 
@@ -166,7 +167,8 @@
 							assessment.</p>
 					</div>
 					<div class="card-footer text-center">
-						<a href="#" class="btn btn-primary">Apply for Recheck</a>
+						<a href="#" class="btn btn-primary" onclick="applyRecheck()" data-toggle="modal"
+					data-target="#exampleModalCenter">Apply for Recheck</a>
 					</div>
 				</div>
 			</div>
@@ -202,6 +204,17 @@ function resultById() {
 	document.getElementById("modalSubmit").innerText="Show Result";
 
 }
+function applyRecheck() {
+	
+	document.getElementById("testnodiv").style.display = "inline";
+	var form = document.getElementById("assessmentForm");
+	form.action = "recheck-apply";
+	document.getElementById("exampleModalLongTitle").innerText="Enter Email Id to Apply for Recheck";
+	document.getElementById("modalSubmit").innerText="Apply";
+
+}
+
+
 </script>
 </body>
 </html>

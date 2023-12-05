@@ -1,5 +1,6 @@
 package com.assessment.dao;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -42,6 +43,8 @@ public class UserDao {
 
 		List<Integer> userClassList = this.hibernateTemplate.execute(session -> session
 				.createQuery("SELECT DISTINCT u.user_class FROM User u", Integer.class).getResultList());
+		
+		Collections.sort(userClassList);
 
 		return userClassList;
 	}

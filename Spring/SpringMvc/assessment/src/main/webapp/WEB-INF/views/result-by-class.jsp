@@ -84,6 +84,11 @@
 					data-toggle="modal" data-target="#exampleModalCenter">
 			</div>
 		</c:if>
+		<c:if test="${empty classList }">
+								<div class="container text-center text-danger">
+									<h2>No record found</h2>
+								</div>
+							</c:if>
 
 			<c:if test="${not empty userList }">
 
@@ -150,6 +155,7 @@
 									</tr>
 								</c:forEach>
 							</tbody>
+							
 						</table>
 					</div>
 
