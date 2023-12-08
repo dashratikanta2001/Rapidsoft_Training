@@ -7,10 +7,12 @@ import javax.transaction.Transactional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.sms.dao.StudentDao;
+import com.sms.dto.StudentDto;
 import com.sms.entity.Student;
 
 @Repository
@@ -19,13 +21,15 @@ public class StudentDaoImpl implements StudentDao {
 
 	@Autowired
 	private SessionFactory sessionFactory;
+	
+	private static ModelMapper mapper = new ModelMapper();
 
 	@Override
 	public int save(Student student) {
 		// TODO Auto-generated method stub
 
 		try {
-			sessionFactory.getCurrentSession().save(student);
+			sessionFactory.getCurrentSession().saveOrUpdate(student);
 			return 1;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -34,8 +38,27 @@ public class StudentDaoImpl implements StudentDao {
 	}
 		
 	@Override
-	public void update(int id) {
+	public void update(int id, StudentDto studentDto){
 		// TODO Auto-generated method stub
+		
+		Session session = sessionFactory.getCurrentSession();
+		Student student = session.get(Student.class, id);
+		if(student !=null)
+		{
+			student.setName(studentDto.getName());
+			student.setClassNo(studentDto.getClassNo());
+			student.setDob(studentDto.getDob());
+			student.setPhoneNo(studentDto.getPhoneNo());
+			student.setPresentAddress(studentDto.getPresentAddress());
+			student.setPermanentAddress(studentDto.getPermanentAddress());
+			student.setBloodGroup(studentDto.getBloodGroup());
+			student.setAdmissionDate(studentDto.getAdmissionDate());
+			student.setFatherName(studentDto.getFatherName());
+			student.setMotherName(studentDto.getMotherName());
+			student.setFatherPhoneNo(studentDto.getFatherPhoneNo());
+			student.setMotherPhoneNo(studentDto.getMotherPhoneNo());
+			System.err.println("Updated successfully");
+		}
 
 	}
 

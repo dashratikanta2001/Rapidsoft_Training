@@ -46,4 +46,13 @@ public class StudentService {
 		return studentList;
 
 	}
+
+	public void update(int id ,StudentDto studentDto) {
+		// TODO Auto-generated method stub
+		
+		studentDao.update(id, studentDto);
+		
+		
+		
+	}
 }

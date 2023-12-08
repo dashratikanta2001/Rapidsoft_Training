@@ -2,13 +2,14 @@ package com.sms.dao;
 
 import java.util.List;
 
+import com.sms.dto.StudentDto;
 import com.sms.entity.Student;
 
 public interface StudentDao {
 
 	public int save(Student student);
 
-	public void update(int id);
+	public void update(int id, StudentDto studentDto);
 
 	public Student getById(int id);
 	
