@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sms.dto.StudentDto;
 import com.sms.response.Response;
+import com.sms.response.Response2;
 import com.sms.service.StudentService;
 
 @Controller
@@ -55,11 +56,14 @@ public class StudentController {
 	@GetMapping("/id/{id}")
 	public ResponseEntity<?> getStudentById(@PathVariable Integer id)
 	{
-		Response<?> student = studentService.getStudentById(id);
-		if (student.getStatus() ==HttpStatus.OK.value()) {
-			return new ResponseEntity<>(student, HttpStatus.OK);
-		}
-		return new ResponseEntity<>(student, HttpStatus.BAD_REQUEST);
+//		Response<?> student = studentService.getStudentById(id);
+		 Response2<?> student = studentService.getStudentById(id);
+//		if (student.getStatus() ==HttpStatus.OK.value()) {
+//			return new ResponseEntity<>(student, HttpStatus.OK);
+//		}
+//		return new ResponseEntity<>(student, HttpStatus.BAD_REQUEST);
+		 
+		 return new ResponseEntity<>(student, HttpStatus.OK);
 		
 	}
 	

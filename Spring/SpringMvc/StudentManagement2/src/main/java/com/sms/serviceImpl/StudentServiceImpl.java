@@ -2,6 +2,7 @@ package com.sms.serviceImpl;
 
 import java.util.List;
 
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,9 @@ import org.springframework.stereotype.Service;
 import com.sms.dao.StudentDao;
 import com.sms.dto.StudentDto;
 import com.sms.entity.Student;
+import com.sms.exception.DataNotFoundException;
 import com.sms.response.Response;
+import com.sms.response.Response2;
 import com.sms.service.StudentService;
 
 @Service
@@ -102,14 +105,28 @@ public class StudentServiceImpl implements StudentService {
 
 
 	@Override
-	public Response<?> getStudentById(int id) {
+	public Response2<?> getStudentById(int id)  {
 		// TODO Auto-generated method stub
 
 		Student student = studentDao.getStudentById(id);
-		if (student != null) {
-			return new Response<>("Student details", student, HttpStatus.OK.value());
+//		if (student != null) {
+//			return new Response<>("Student details", student, HttpStatus.OK.value());
+//		}
+//		return new Response<>("Student not found", null, HttpStatus.BAD_REQUEST.value());
+		
+		try {
+			if(student !=null)
+			{
+				return new Response2<>("success","Student Found", student);
+			}
+			else {
+				throw new DataNotFoundException("Student not found");
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new ServiceException("An error occure"+e);
 		}
-		return new Response<>("Student not found", null, HttpStatus.BAD_REQUEST.value());
 	}
 
 	@Override
