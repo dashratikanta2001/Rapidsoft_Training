@@ -1,10 +1,9 @@
 package com.sms.service;
 
-import java.util.List; 
+import java.util.List;  
 
 import com.sms.dto.StudentDto;
 import com.sms.response.Response;
-import com.sms.response.Response2;
 
 public interface StudentService{
 	
@@ -15,7 +14,7 @@ public interface StudentService{
 //	List<StudentDto> getallStudent(Student student);
 	Response<?> deleteStudent(int id);
 	
-	Response2<?> getStudentById(int id);
+	Response<?> getStudentById(int id);
 	
 	Response<?> getStudentByEmail(String email);
 	

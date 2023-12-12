@@ -3,49 +3,45 @@ package com.sms.exception;
 
 public class ErrorResponse<T> {
 
-	private String errorMessage;
-	
-	private int errorCode;
-	
-	private boolean success;
-
-	public boolean isSuccess() {
-		return success;
+	private String status;
+	private boolean error;
+	private int code;
+	private String message;
+	public boolean isError() {
+		return error;
 	}
-
-	public void setSuccess(boolean success) {
-		this.success = success;
+	public void setError(boolean error) {
+		this.error = error;
 	}
-
-	public String getErrorMessage() {
-		return errorMessage;
+	public int getCode() {
+		return code;
 	}
-
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
+	public void setCode(int code) {
+		this.code = code;
 	}
-
-	public int getErrorCode() {
-		return errorCode;
+	public String getMessage() {
+		return message;
 	}
-
-	public void setErrorCode(int errorCode) {
-		this.errorCode = errorCode;
+	public void setMessage(String message) {
+		this.message = message;
 	}
-
-	
-
-	public ErrorResponse(String errorMessage, int errorCode, boolean success) {
-		super();
-		this.errorMessage = errorMessage;
-		this.errorCode = errorCode;
-		this.success = success;
-	}
-
 	public ErrorResponse() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
+	public ErrorResponse(String status, boolean error, int code, String message) {
+		super();
+		this.status = status;
+		this.error = error;
+		this.code = code;
+		this.message = message;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	
 }

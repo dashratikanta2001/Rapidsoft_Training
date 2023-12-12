@@ -12,7 +12,6 @@ import com.sms.dto.StudentDto;
 import com.sms.entity.Student;
 import com.sms.exception.DataNotFoundException;
 import com.sms.response.Response;
-import com.sms.response.Response2;
 import com.sms.service.StudentService;
 
 @Service
@@ -27,21 +26,39 @@ public class StudentServiceImpl implements StudentService {
 
 		// Save the student details....
 		Integer saveStudent;
-//		if (studentDto.getId() == null) {
 			Student validator = studentDao.getStudentByEmail(studentDto.getEmail());
-			if (validator == null) {
-				Student student = StudentDto.toStudent(studentDto);
-				saveStudent = studentDao.saveStudent(student);
-				if (saveStudent > 0) {
-					return new Response<>("Student registered successfully", student, HttpStatus.OK.value());
-				} else {
-					return new Response<>("Something went wrong on server. Please Try again later", null,
-							HttpStatus.BAD_REQUEST.value());
-
+			try {
+				if (validator == null) {
+					Student student = StudentDto.toStudent(studentDto);
+					saveStudent = studentDao.saveStudent(student);
+					if (saveStudent > 0) {
+						return new Response<>(true, HttpStatus.OK.value(), "Student added successfully", student);
+//						return new Response<>("Student registered successfully", student, HttpStatus.OK.value());
+					} else {
+//						return new Response<>("Something went wrong on server. Please Try again later", null,HttpStatus.BAD_REQUEST.value());
+						throw new ServiceException("Something went wrong on server. Please Try again later");
+					}
 				}
-			} else {
-				return new Response<>("Email id already exist", null, HttpStatus.BAD_REQUEST.value());
+				else {
+					throw new ServiceException("Email id already exist");
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				throw new ServiceException(e.getMessage());
 			}
+//			if (validator == null) {
+//				Student student = StudentDto.toStudent(studentDto);
+//				saveStudent = studentDao.saveStudent(student);
+//				if (saveStudent > 0) {
+//					return new Response<>(true, HttpStatus.OK.value(), "Student added successfully", student);
+////					return new Response<>("Student registered successfully", student, HttpStatus.OK.value());
+//				} else {
+////					return new Response<>("Something went wrong on server. Please Try again later", null,HttpStatus.BAD_REQUEST.value());
+//
+//				}
+//			} else {
+////				return new Response<>("Email id already exist", null, HttpStatus.BAD_REQUEST.value());
+//			}
 
 //		}
 
@@ -78,75 +95,118 @@ public class StudentServiceImpl implements StudentService {
 		// TODO Auto-generated method stub
 		
 		Student student = studentDao.getStudentById(id);
-		if (student !=null) {
-			student.setClassNo(studentDto.getClassNo());
-			student.setDob(studentDto.getDob());
-			student.setPhoneNo(studentDto.getPhoneNo());
-			student.setPresentAddress(studentDto.getPresentAddress());
-			student.setPermanentAddress(studentDto.getPermanentAddress());
-			student.setBloodGroup(studentDto.getBloodGroup());
-			student.setFatherName(studentDto.getFatherName());
-			student.setMotherName(studentDto.getMotherName());
-			student.setFatherPhoneNo(studentDto.getFatherPhoneNo());
-			student.setMotherPhoneNo(studentDto.getMotherPhoneNo());
+		
+		try {
+			
+			if (student !=null) {
+				student.setClassNo(studentDto.getClassNo());
+				student.setDob(studentDto.getDob());
+				student.setPhoneNo(studentDto.getPhoneNo());
+				student.setPresentAddress(studentDto.getPresentAddress());
+				student.setPermanentAddress(studentDto.getPermanentAddress());
+				student.setBloodGroup(studentDto.getBloodGroup());
+				student.setFatherName(studentDto.getFatherName());
+				student.setMotherName(studentDto.getMotherName());
+				student.setFatherPhoneNo(studentDto.getFatherPhoneNo());
+				student.setMotherPhoneNo(studentDto.getMotherPhoneNo());
 
-			Integer updateStudent = studentDao.updateStudent(student);
-			if (updateStudent > 0) {
-				return new Response<>("Student details updated successfully", student, HttpStatus.OK.value());
-			} else {
-				return new Response<>("Student details not updated", student, HttpStatus.BAD_REQUEST.value());
-
+				Integer updateStudent = studentDao.updateStudent(student);
+				if (updateStudent > 0) {
+//					return new Response<>("Student details updated successfully", student, HttpStatus.OK.value());
+					return new Response<>(true, HttpStatus.OK.value(), "Student details updated successfully", student);
+				} else {
+//					return new Response<>("Student details not updated", student, HttpStatus.BAD_REQUEST.value());
+					throw new ServiceException("Student details not updated");
+				}
 			}
+			else {
+				throw new DataNotFoundException("Student not found for id: "+id);
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new ServiceException(e.getMessage());
 		}
 		
-		return new Response<>("Student not found for id: "+id, student, HttpStatus.BAD_REQUEST.value());
+		
+//		if (student !=null) {
+//			student.setClassNo(studentDto.getClassNo());
+//			student.setDob(studentDto.getDob());
+//			student.setPhoneNo(studentDto.getPhoneNo());
+//			student.setPresentAddress(studentDto.getPresentAddress());
+//			student.setPermanentAddress(studentDto.getPermanentAddress());
+//			student.setBloodGroup(studentDto.getBloodGroup());
+//			student.setFatherName(studentDto.getFatherName());
+//			student.setMotherName(studentDto.getMotherName());
+//			student.setFatherPhoneNo(studentDto.getFatherPhoneNo());
+//			student.setMotherPhoneNo(studentDto.getMotherPhoneNo());
+//
+//			Integer updateStudent = studentDao.updateStudent(student);
+//			if (updateStudent > 0) {
+//				return new Response<>("Student details updated successfully", student, HttpStatus.OK.value());
+//			} else {
+//				return new Response<>("Student details not updated", student, HttpStatus.BAD_REQUEST.value());
+//
+//			}
+//		}
+//		
+//		return new Response<>("Student not found for id: "+id, student, HttpStatus.BAD_REQUEST.value());
 	}
 	
 
 
 	@Override
-	public Response2<?> getStudentById(int id)  {
+	public Response<?> getStudentById(int id)  {
 		// TODO Auto-generated method stub
-
 		Student student = studentDao.getStudentById(id);
-//		if (student != null) {
-//			return new Response<>("Student details", student, HttpStatus.OK.value());
-//		}
-//		return new Response<>("Student not found", null, HttpStatus.BAD_REQUEST.value());
-		
 		try {
-			if(student !=null)
-			{
-				return new Response2<>("success","Student Found", student);
+			if (student != null) {
+				return new Response<>(true,HttpStatus.OK.value(), "Student details", student);
 			}
 			else {
-				throw new DataNotFoundException("Student not found");
+				throw new DataNotFoundException("No student found with Id: "+id);
 			}
-			
 		} catch (Exception e) {
 			// TODO: handle exception
-			throw new ServiceException("An error occure"+e);
+			throw new ServiceException(e.getMessage());
 		}
+
+//		return new Response<>("Student not found", null, HttpStatus.BAD_REQUEST.value());
+		
 	}
 
 	@Override
 	public Response<?> getStudentByEmail(String email) {
 		// TODO Auto-generated method stub
 		Student student = studentDao.getStudentByEmail(email);
-		if (student != null) {
-			return new Response<>("Student details", student, HttpStatus.OK.value());
+		try {
+			if (student != null) {
+				return new Response<>(true,HttpStatus.OK.value(), "Student details", student);
+			}
+			else {
+				throw new DataNotFoundException("No student found with Email: "+email);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new ServiceException(e.getMessage());
 		}
-		return new Response<>("Student not found", null, HttpStatus.BAD_REQUEST.value());
 	}
 
 	@Override
 	public Response<?> getStudentByClass(int classNo) {
 		// TODO Auto-generated method stub
 		List<Student> students = studentDao.getAllStudentByClass(classNo);
-		if (!students.isEmpty()) {
-			return new Response<>("Student details", students, HttpStatus.OK.value());
+		try {
+			if (!students.isEmpty()) {
+				return new Response<>(true,HttpStatus.OK.value(), "Student details", students);
+			}
+			else {
+				throw new DataNotFoundException("No student found with class: "+classNo);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new ServiceException(e.getMessage());
 		}
-		return new Response<>("No records found", null, HttpStatus.BAD_REQUEST.value());
 	}
 
 	@Override
@@ -154,10 +214,17 @@ public class StudentServiceImpl implements StudentService {
 		// TODO Auto-generated method stub
 
 		List<Student> students = studentDao.getAllStudents();
-		if (!students.isEmpty()) {
-			return new Response<>("Student details", students, HttpStatus.OK.value());
+		try {
+			if (!students.isEmpty()) {
+				return new Response<>(true,HttpStatus.OK.value(), "Student details", students);
+			}
+			else {
+				throw new DataNotFoundException("No Record Found");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new ServiceException(e.getMessage());
 		}
-		return new Response<>("No records found", null, HttpStatus.BAD_REQUEST.value());
 	}
 
 	@Override
@@ -165,17 +232,35 @@ public class StudentServiceImpl implements StudentService {
 		// TODO Auto-generated method stub
 		
 		Student student = studentDao.getStudentById(id);
-		if (student != null) {
-			if(studentDao.deleteStudent(student) >0)
-			{
-				return new Response<>("Student deleted successfully", null, HttpStatus.OK.value());
+		try {
+			if (student != null) {
+				if(studentDao.deleteStudent(student) >0)
+				{
+					return new Response<>(true,HttpStatus.OK.value(), "Student deteted successfully", null);
+				}
+				else {
+					throw new ServiceException("Student not deleted.");
+				}
 			}
 			else {
-				return new Response<>("Student not deleted", null, HttpStatus.BAD_REQUEST.value());
+				throw new DataNotFoundException("Student Not found for Id: "+id);
 			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new ServiceException(e.getMessage());
 		}
 		
-		return new Response<>("Student Not found for Id: "+id, null, HttpStatus.BAD_REQUEST.value());
+//		if (student != null) {
+//			if(studentDao.deleteStudent(student) >0)
+//			{
+//				return new Response<>("Student deleted successfully", null, HttpStatus.OK.value());
+//			}
+//			else {
+//				return new Response<>("Student not deleted", null, HttpStatus.BAD_REQUEST.value());
+//			}
+//		}
+//		
+//		return new Response<>("Student Not found for Id: "+id, null, HttpStatus.BAD_REQUEST.value());
 	}
 
 

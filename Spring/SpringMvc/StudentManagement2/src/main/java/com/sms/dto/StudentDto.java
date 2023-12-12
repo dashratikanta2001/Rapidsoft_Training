@@ -7,14 +7,10 @@ import javax.validation.constraints.NotBlank;
 import org.modelmapper.ModelMapper;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
-//
-//import com.fasterxml.jackson.annotation.JsonFormat;
-//import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.sms.entity.Student;
 import com.sms.validation.EmailConstraint;
 
-@JsonInclude
 public class StudentDto {
 
 	private Integer id;
@@ -23,7 +19,7 @@ public class StudentDto {
 
 	private int classNo;
 
-	@JsonFormat(pattern = "dd-MM-yyyy")
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
 	private Date dob;
 
 	@NotBlank(message = "Email is required")
@@ -163,6 +159,7 @@ public class StudentDto {
 	public StudentDto() {
 		super();
 		// TODO Auto-generated constructor stub
+
 	}
 
 	public StudentDto(Integer id, String name, int classNo, Date dob, String email, String phoneNo,
@@ -205,7 +202,6 @@ public class StudentDto {
 //		studentDto.setMotherPhoneNo(student.getMotherPhoneNo());
 //		
 //		return studentDto;
-
 //		if (student!=null) {
 		return modelMapper.map(student, StudentDto.class);
 //		}
