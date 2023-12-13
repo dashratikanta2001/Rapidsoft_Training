@@ -1,7 +1,9 @@
 package com.blog.entity;
 
 import java.util.Date;
+import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -36,6 +39,9 @@ public class Post {
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;
+	
+	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+	private Set<Comment> comments;
 
 	public int getPostId() {
 		return postId;
@@ -93,6 +99,15 @@ public class Post {
 		this.category = category;
 	}
 
+	
+	public Set<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
+	}
+
 	public Post(int postId, String title, String content, String imageName, Date addDate, User user,
 			Category category) {
 		super();
@@ -103,6 +118,21 @@ public class Post {
 		this.addDate = addDate;
 		this.user = user;
 		this.category = category;
+	}
+	
+	
+
+	public Post(int postId, String title, String content, String imageName, Date addDate, User user, Category category,
+			Set<Comment> comments) {
+		super();
+		this.postId = postId;
+		this.title = title;
+		this.content = content;
+		this.imageName = imageName;
+		this.addDate = addDate;
+		this.user = user;
+		this.category = category;
+		this.comments = comments;
 	}
 
 	public Post() {

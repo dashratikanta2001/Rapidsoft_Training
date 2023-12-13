@@ -1,6 +1,7 @@
 package com.blog.payloads;
 
 import java.util.Date;
+import java.util.List;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -24,6 +25,8 @@ public class PostDto {
 	private CategoryDto category;
 
 	private UserDto user;
+
+	private List<CommentDto> comments;
 
 	public Integer getPostId() {
 		return postId;
@@ -81,13 +84,21 @@ public class PostDto {
 		this.user = user;
 	}
 
+	public List<CommentDto> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<CommentDto> comments) {
+		this.comments = comments;
+	}
+
 	public PostDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
 	public PostDto(Integer postId, String title, String content, String imageName, Date addDate, CategoryDto category,
-			UserDto user) {
+			UserDto user, List<CommentDto> comments) {
 		super();
 		this.postId = postId;
 		this.title = title;
@@ -96,6 +107,7 @@ public class PostDto {
 		this.addDate = addDate;
 		this.category = category;
 		this.user = user;
+		this.comments = comments;
 	}
 
 }
