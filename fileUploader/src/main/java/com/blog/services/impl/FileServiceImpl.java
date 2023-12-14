@@ -1,7 +1,10 @@
 package com.blog.services.impl;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.UUID;
@@ -57,7 +60,22 @@ public class FileServiceImpl implements FileService {
 		}	
 	}
 	
-	
+
+	@Override
+	public InputStream getResource(String path, String fileName) throws FileNotFoundException {
+		// TODO Auto-generated method stub
+		
+		String fullPath = path+ File.separator + fileName;
+		
+		InputStream is = new FileInputStream(fullPath);
+		
+		// db logic to return input stream...
+		
+		return is;
+		
+		
+	}
+
 	
 	
 	
@@ -76,5 +94,9 @@ public class FileServiceImpl implements FileService {
 		
 		return isImage;
 	}
+
+
+
+
 
 }
