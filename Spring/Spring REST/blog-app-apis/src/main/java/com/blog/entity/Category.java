@@ -1,17 +1,26 @@
 package com.blog.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.List ;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+//import jakarta.persistence.CascadeType;
+//import jakarta.persistence.Column;
+//import jakarta.persistence.Entity;
+//import jakarta.persistence.FetchType;
+//import jakarta.persistence.GeneratedValue;
+//import jakarta.persistence.GenerationType;
+//import jakarta.persistence.Id;
+//import jakarta.persistence.OneToMany;
+//import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "categories")
@@ -20,16 +29,16 @@ public class Category {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer categoryId;
-	
+
 	@Column(name = "title", length = 100, nullable = false)
 	private String categoryTitle;
-	
+
 	@Column(name = "description")
 	private String categoryDescription;
-	
+
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Post> posts;
-	
+
 
 	public Integer getCategoryId() {
 		return categoryId;
@@ -39,7 +48,7 @@ public class Category {
 		return posts;
 	}
 
-	
+
 
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
@@ -71,7 +80,7 @@ public class Category {
 		this.categoryTitle = categoryTitle;
 		this.categoryDescription = categoryDescription;
 	}
-	
+
 	public Category(Integer categoryId, String categoryTitle, String categoryDescription, List<Post> posts) {
 		super();
 		this.categoryId = categoryId;
@@ -84,6 +93,6 @@ public class Category {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
+
+
 }

@@ -1,10 +1,13 @@
 package com.blog.payloads;
 
-import java.util.Date;
+import java.util.Date; 
 import java.util.List;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+//import jakarta.validation.constraints.NotBlank;
+//import jakarta.validation.constraints.Size;
 
 public class PostDto {
 

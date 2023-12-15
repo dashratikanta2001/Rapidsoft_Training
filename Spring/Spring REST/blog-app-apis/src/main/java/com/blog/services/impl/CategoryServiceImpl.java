@@ -18,42 +18,42 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired
 	private CategoryDao categoryDao;
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	@Override
 	public CategoryDto createCategory(CategoryDto categoryDto) {
 		// TODO Auto-generated method stub
-		
+
 		Category category = this.modelMapper.map(categoryDto, Category.class);
-		
+
 		Category addedCat = this.categoryDao.save(category);
-		
+
 		return this.modelMapper.map(addedCat, CategoryDto.class);
 	}
 
 	@Override
 	public CategoryDto updateCategory(CategoryDto categoryDto, Integer categoryId) {
 		// TODO Auto-generated method stub
-		
+
 		Category category = this.categoryDao.findById(categoryId).orElseThrow(()-> new ResourceNotFoundException("Category", "Category Id", categoryId));
-		
+
 		category.setCategoryTitle(categoryDto.getCategoryTitle());
 		category.setCategoryDescription(categoryDto.getCategoryDescription());
-		
+
 		Category updatedCat = this.categoryDao.save(category);
-		
-		
+
+
 		return this.modelMapper.map(updatedCat, CategoryDto.class);
 	}
 
 	@Override
 	public void deleteCategory(Integer categoryId) {
 		// TODO Auto-generated method stub
-		
+
 		Category category = this.categoryDao.findById(categoryId).orElseThrow(()-> new ResourceNotFoundException("Category", "Category Id", categoryId));
-		
+
 		this.categoryDao.delete(category);
 
 	}
@@ -61,24 +61,24 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public CategoryDto getCategory(Integer categoryId) {
 		// TODO Auto-generated method stub
-		
+
 		Category category = this.categoryDao.findById(categoryId).orElseThrow(()-> new ResourceNotFoundException("Category", "Category Id", categoryId));
-		
+
 		return modelMapper.map(category, CategoryDto.class);
 	}
 
 	@Override
 	public List<CategoryDto> getcategories() {
 		// TODO Auto-generated method stub
-		
+
 		List<Category> categories = this.categoryDao.findAll();
-		
+
 		List<CategoryDto> categoryDtoList = categories.stream().map((category) -> this.modelMapper.map(category, CategoryDto.class)).collect(Collectors.toList());
-		
-		
+
+
 		return categoryDtoList;
 	}
 
-	
-	
+
+
 }

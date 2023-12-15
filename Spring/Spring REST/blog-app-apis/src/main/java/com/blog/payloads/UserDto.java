@@ -1,28 +1,48 @@
 package com.blog.payloads;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import java.util.List;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+//import jakarta.validation.constraints.Email; 
+//import jakarta.validation.constraints.NotEmpty;
+//import jakarta.validation.constraints.Size;
 
 public class UserDto {
 
 	private int id;
-	
+
 	@NotEmpty
 	@Size(min = 4, message = "Username must be min of 4 characters")
 	private String name;
-	
+
 	@Email(message = "Email address is not valid")
-	
+
 	private String email;
+
 	
 	@NotEmpty
 	@Size(min = 3, max = 10, message = "Password must be min of 3 chars and maximum of 10 chars")
 	private String password;
-	
+
 	@NotEmpty
 	private String about;
 	
+	private List<RoleDto> roles;
+
+	
+	public List<RoleDto> getRoles() {
+		return roles;
+	}
+	public void setRoles(List<RoleDto> roles) {
+		this.roles = roles;
+	}
 	public int getId() {
 		return id;
 	}
@@ -65,6 +85,6 @@ public class UserDto {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
+
+
 }

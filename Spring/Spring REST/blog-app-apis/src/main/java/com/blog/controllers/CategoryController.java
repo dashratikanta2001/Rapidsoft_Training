@@ -2,6 +2,8 @@ package com.blog.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +20,7 @@ import com.blog.payloads.ApiResponse;
 import com.blog.payloads.CategoryDto;
 import com.blog.services.CategoryService;
 
-import jakarta.validation.Valid;
+//import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -44,7 +46,7 @@ public class CategoryController {
 		return new ResponseEntity<>(updateCategory, HttpStatus.OK);
 	}
 
-	
+
 	//delete category
 	@DeleteMapping("/{catId}")
 	public ResponseEntity<?> deleteCategory(@PathVariable Integer catId) {
@@ -53,7 +55,7 @@ public class CategoryController {
 		return new ResponseEntity<>(new ApiResponse("category is deleted successfully", true), HttpStatus.OK);
 	}
 
-	
+
 	//get category by id
 	@GetMapping("/{catId}")
 	public ResponseEntity<?> getCategoryById(@PathVariable Integer catId) {
@@ -63,7 +65,7 @@ public class CategoryController {
 
 	}
 
-	
+
 	//get all categories
 	@GetMapping("/")
 	public ResponseEntity<?> getCategory() {

@@ -14,12 +14,12 @@ import com.blog.entity.User;
 
 public interface PostDao extends JpaRepository<Post, Integer>{
 
-	
+
 	Page<Post> findByUser(User user, Pageable p);
 	Page<Post> findByCategory(Category category, Pageable p);
-	
+
 	List<Post> findByTitleContaining(String title);
-	
+
 	@Query("select p from Post p where p.title like :key")
 	List<Post> searchByTitle(@Param("key") String title);
 }

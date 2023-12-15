@@ -1,16 +1,19 @@
 package com.blog.payloads;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+//import jakarta.validation.constraints.NotBlank;
+//import jakarta.validation.constraints.Size;
 
 public class CategoryDto {
 
 	private Integer categoryId;
-	
+
 	@NotBlank
 	@Size(min = 4, message = "Min size of category title is 4")
 	private String categoryTitle;
-	
+
 	@NotBlank
 	@Size(min = 10, message = "Min size of category description is 10")
 	private String categoryDescription;
@@ -42,6 +45,6 @@ public class CategoryDto {
 		this.categoryTitle = categoryTitle;
 		this.categoryDescription = categoryDescription;
 	}
-	
-	
+
+
 }

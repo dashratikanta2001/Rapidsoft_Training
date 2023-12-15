@@ -2,7 +2,7 @@ package com.blog.exceptions;
 
 public class ResourceNotFoundException extends RuntimeException{
 
-	
+
 	String resourceName;
 	String fieldName;
 	long fieldValue;
@@ -12,6 +12,6 @@ public class ResourceNotFoundException extends RuntimeException{
 		this.fieldName = fieldName;
 		this.fieldValue = fieldValue;
 	}
-	
-	
+
+
 }

@@ -20,43 +20,43 @@ public class FileServiceImpl implements FileService {
 	@Override
 	public String uploadImage(String path, MultipartFile file) throws IOException {
 		// TODO Auto-generated method stub
-		
+
 		//File name
 		String name = file.getOriginalFilename();
 		//abc.png
-		
+
 		//random name generate file
-		
+
 		String randomId = UUID.randomUUID().toString();
 		String fileName1 = randomId.concat(name.substring(name.lastIndexOf(".")));
-		
+
 		//Fullpath
 		String filePath = path + File.separator+fileName1;
-		
+
 		//create folder if not exit
 		File f = new File(path);
-		
+
 		if(!f.exists())
 		{
 			f.mkdir();
 		}
-		
+
 		Files.copy(file.getInputStream(), Paths.get(filePath));
-		
+
 		return fileName1;
 	}
 
 	@Override
 	public InputStream getResource(String path, String fileName) throws FileNotFoundException {
 		// TODO Auto-generated method stub
-		
+
 		String fullpath = path+File.separator+fileName;
 		InputStream is = new FileInputStream(fullpath);
-		
+
 		//db logic to return inputstream
-		
+
 		return is;
-		
+
 	}
 
 }
