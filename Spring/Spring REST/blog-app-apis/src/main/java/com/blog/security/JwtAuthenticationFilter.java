@@ -94,11 +94,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 			}
 		}
 		else {
-			System.out.println("Username is null or context is null");
+			System.out.println("Username is null or context is not null");
 			
-			System.out.println("User name = "+username);
-//			System.out.println("Context = "+SecurityContextHolder.getContext() == null);
-			System.out.println("Context = "+SecurityContextHolder.getContext().getAuthentication());
+//			System.out.println("User name = "+username);
+////			System.out.println("Context = "+SecurityContextHolder.getContext() == null);
+//			System.out.println("Context = "+SecurityContextHolder.getContext().getAuthentication());
 			
 		}
 		

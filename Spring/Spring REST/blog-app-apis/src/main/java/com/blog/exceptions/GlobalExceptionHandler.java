@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<?> handleMethodArgsNotValidException(MethodArgumentNotValidException ex)
 	{
-		Map<String, String> resp = new HashMap();
+		Map<String, String> resp = new HashMap<String, String>();
 
 		ex.getBindingResult().getAllErrors().forEach((error) ->{
 			String fieldName = ((FieldError)error).getField();
@@ -53,8 +53,9 @@ public class GlobalExceptionHandler {
 	
 	
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ApiResponse> NoResourceFoundExceptionHandler(Exception ex)
+	public ResponseEntity<?> NoResourceFoundExceptionHandler(Exception ex)
 	{
+		System.out.println("This is global exception");
 		String message = ex.getMessage();
 		ApiResponse apiResponse = new ApiResponse(message, false);
 
