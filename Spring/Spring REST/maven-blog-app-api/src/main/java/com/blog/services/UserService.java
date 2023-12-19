@@ -5,7 +5,7 @@ import com.blog.response.Response;
 
 public interface UserService {
 
-	Response<?> saveUser(UserDto userdto);
+	Response<?> saveUser(UserDto userDto);
 	Response<?> findById(int userId);
  	Response<?> findByEmail(String email);
  	Response<?> delete(String email);

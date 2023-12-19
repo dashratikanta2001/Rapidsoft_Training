@@ -1,5 +1,6 @@
 package com.blog.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -7,7 +8,9 @@ import javax.persistence.Id;
 public class Role {
 
 	@Id
+	@Column(columnDefinition = "int default 502")
 	private int id;
+	@Column(columnDefinition = "String default ROLE_NORMAL")
 	private String name;
 	public int getId() {
 		return id;

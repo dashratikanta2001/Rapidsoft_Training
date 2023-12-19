@@ -28,7 +28,7 @@ public class userDaoImpl implements UserDao {
 		// TODO Auto-generated method stub
 
 		try {
-			sessionFactory.getCurrentSession().save(user);
+			sessionFactory.getCurrentSession().saveOrUpdate(user);
 			return user;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -46,7 +46,6 @@ public class userDaoImpl implements UserDao {
 		return Optional.of((User)criteria.uniqueResult());
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public Optional<User> findByEmail(String email) {
 		// TODO Auto-generated method stub
@@ -66,12 +65,16 @@ public class userDaoImpl implements UserDao {
 	@Override
 	public List<User> findAll() {
 		// TODO Auto-generated method stub
-		return null;
+		
+		List<User> resultList = sessionFactory.getCurrentSession().createQuery("from User", User.class).getResultList();
+		
+		return resultList;
 	}
 
 	@Override
 	public void delete(User user) {
 		// TODO Auto-generated method stub
+		sessionFactory.getCurrentSession().delete(user);
 
 	}
 

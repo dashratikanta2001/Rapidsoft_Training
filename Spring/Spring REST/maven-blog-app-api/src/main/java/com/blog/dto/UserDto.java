@@ -1,10 +1,11 @@
 package com.blog.dto;
 
-import java.util.List;
+import java.util.List; 
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+
 
 
 public class UserDto {
@@ -26,15 +27,15 @@ public class UserDto {
 	@NotEmpty
 	private String about;
 	
-//	private List<RoleDto> roles;
+	private List<RoleDto> roles;
 
 	
-//	public List<RoleDto> getRoles() {
-//		return roles;
-//	}
-//	public void setRoles(List<RoleDto> roles) {
-//		this.roles = roles;
-//	}
+	public List<RoleDto> getRoles() {
+		return roles;
+	}
+	public void setRoles(List<RoleDto> roles) {
+		this.roles = roles;
+	}
 	public int getId() {
 		return id;
 	}
@@ -77,5 +78,6 @@ public class UserDto {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
 
 }

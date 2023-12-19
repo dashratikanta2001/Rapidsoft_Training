@@ -1,6 +1,7 @@
 package com.blog.services.impl;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import com.blog.dao.UserDao;
 import com.blog.dto.UserDto;
 import com.blog.entity.User;
 import com.blog.exceptions.ResourceNotFoundException;
-import com.blog.response.ErrorResponse;
 import com.blog.response.Response;
 import com.blog.services.UserService;
 
@@ -25,11 +25,11 @@ public class UserserviceImpl implements UserService {
 	private ModelMapper modelMapper;
 
 	@Override
-	public Response<?> saveUser(UserDto userdto) {
+	public Response<?> saveUser(UserDto userDto) {
 		// TODO Auto-generated method stub
 
-		if (!userDao.findByEmail(userdto.getEmail()).isPresent()) {
-			User dtoToUser = this.dtoToUser(userdto);
+		if (!userDao.findByEmail(userDto.getEmail()).isPresent()) {
+			User dtoToUser = this.dtoToUser(userDto);
 
 			User user = this.userDao.save(dtoToUser);
 			if (user == null) {
@@ -72,26 +72,44 @@ public class UserserviceImpl implements UserService {
 		} catch (Exception e) {
 			return new Response<>("User not deleted.", null, HttpStatus.BAD_REQUEST.value());
 		}
-		
+
 	}
 
 	@Override
 	public Response<?> updateUser(UserDto userDto) {
 		// TODO Auto-generated method stub
-		return null;
+		User user = userDao.findByEmail(userDto.getEmail())
+				.orElseThrow(() -> new ResourceNotFoundException("User", "email", userDto.getEmail()));
+
+		user.setName(userDto.getName());
+//		user.setEmail(userDto.getEmail());
+		user.setPassword(userDto.getPassword());
+		user.setAbout(userDto.getAbout());
+
+
+		User savedUser = userDao.save(user);
+
+		UserDto userDto2 = modelMapper.map(savedUser, UserDto.class);
+
+		return new Response<>("User updated Successfully", userDto2, HttpStatus.OK.value());
 	}
 
 	@Override
 	public Response<?> findAll() {
+
+		List<User> allUsers = userDao.findAll();
+		List<UserDto> userDtoList = allUsers.stream().map(user -> this.modelMapper.map(user, UserDto.class))
+				.collect(Collectors.toList());
+
 		// TODO Auto-generated method stub
-		return null;
+		return new Response<>("All users", userDtoList, HttpStatus.OK.value());
 	}
 
-	private User dtoToUser(UserDto userDto) {
+	public User dtoToUser(UserDto userDto) {
 		return this.modelMapper.map(userDto, User.class);
 	}
 
-	private UserDto userToDto(User user) {
+	public UserDto userToDto(User user) {
 		return this.modelMapper.map(user, UserDto.class);
 	}
 

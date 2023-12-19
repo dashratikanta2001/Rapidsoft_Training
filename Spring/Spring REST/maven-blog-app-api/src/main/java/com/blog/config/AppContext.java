@@ -24,9 +24,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan(basePackages = {"com.blog"})
 public class AppContext {
 
-
 	@Autowired
 	private Environment environment;
+	
+
+	
 	
 	@Bean
 	public DataSource dataSource()
@@ -72,7 +74,7 @@ public class AppContext {
 	}
 	
 	@Bean
-	public HibernateTemplate getHibernateTemplate() {
+	public HibernateTemplate getHibernateTemplate() {	
 		// TODO Auto-generated method stub
 		return new HibernateTemplate(sessionFactory());
 	}
@@ -93,4 +95,6 @@ public class AppContext {
 	{
 		return new ModelMapper();
 	}
+	
+	
 }

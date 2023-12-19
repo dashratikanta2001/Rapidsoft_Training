@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +26,13 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	
+	@GetMapping("/")
+	public ResponseEntity<?> allUsers()
+	{
+		Response<?> user = this.userService.findAll();
+		return new ResponseEntity<>(user, HttpStatus.OK);
+	}
 	
 	@GetMapping("/{email}")
 	public ResponseEntity<?> userById(@PathVariable String email)
@@ -43,7 +51,20 @@ public class UserController {
 		return new ResponseEntity<>(user, HttpStatus.CREATED);
 		}
 		else {
-			return new ResponseEntity<>(new ErrorResponse<>(user.getMessage(), null, user.getStatus()), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ErrorResponse<>(user.getMessage(), false), HttpStatus.BAD_REQUEST);
+		}
+	}
+	@PutMapping("/{email}")
+	public ResponseEntity<?> updateUser(@Valid @RequestBody UserDto userDto)
+	{
+		Response<?> user = this.userService.updateUser(userDto);
+		
+		if(user.getStatus() == HttpStatus.OK.value())
+		{
+			return new ResponseEntity<>(user, HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<>(new ErrorResponse<>(user.getMessage(), true), HttpStatus.BAD_REQUEST);
 		}
 	}
 	
