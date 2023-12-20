@@ -20,4 +20,6 @@ public interface PostDao {
 	Optional<List<Post>> findBycategory(Category category);
 	
 	Optional<List<Post>> findByUser(User user);
+
+	Optional<List<Post>> findByTitleContaining(String keywords);
 }

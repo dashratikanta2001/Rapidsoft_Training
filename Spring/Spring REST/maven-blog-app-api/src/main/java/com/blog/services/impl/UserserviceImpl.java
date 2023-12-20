@@ -1,6 +1,9 @@
 package com.blog.services.impl;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -8,8 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.blog.config.AppConstants;
+import com.blog.dao.RoleDao;
 import com.blog.dao.UserDao;
 import com.blog.dto.UserDto;
+import com.blog.entity.Role;
 import com.blog.entity.User;
 import com.blog.exceptions.ResourceNotFoundException;
 import com.blog.response.Response;
@@ -20,6 +26,9 @@ public class UserserviceImpl implements UserService {
 
 	@Autowired
 	private UserDao userDao;
+	
+	@Autowired
+	private RoleDao roleDao;
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -30,6 +39,12 @@ public class UserserviceImpl implements UserService {
 
 		if (!userDao.findByEmail(userDto.getEmail()).isPresent()) {
 			User dtoToUser = this.dtoToUser(userDto);
+			
+			Role findByName = roleDao.findByName(AppConstants.ROLE_USER);
+						
+			Set<Role> roles = new HashSet<>();
+			roles.add(findByName);
+			dtoToUser.setRoles(roles);
 
 			User user = this.userDao.save(dtoToUser);
 			if (user == null) {
@@ -48,7 +63,7 @@ public class UserserviceImpl implements UserService {
 
 		User user = userDao.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
-		return new Response<>("User found", user, HttpStatus.OK.value());
+		return new Response<>("User found", userToDto(user), HttpStatus.OK.value());
 	}
 
 	@Override
@@ -112,5 +127,8 @@ public class UserserviceImpl implements UserService {
 	public UserDto userToDto(User user) {
 		return this.modelMapper.map(user, UserDto.class);
 	}
+
+	
+	
 
 }

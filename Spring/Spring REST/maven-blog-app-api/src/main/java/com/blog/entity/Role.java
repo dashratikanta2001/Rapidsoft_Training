@@ -1,16 +1,19 @@
 package com.blog.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 @Entity
+@SequenceGenerator(name = "idGenerator", initialValue = 501, allocationSize = 1)
 public class Role {
 
 	@Id
-	@Column(columnDefinition = "int default 502")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGenerator")
 	private int id;
-	@Column(columnDefinition = "String default ROLE_NORMAL")
+	
 	private String name;
 	public int getId() {
 		return id;

@@ -61,6 +61,7 @@ public class GlobalException {
 	public ResponseEntity<?> ExceptionHandler(Exception ex) {
 
 		String message = ex.getMessage();
+		ex.printStackTrace();
 		ErrorResponse<?> apiResponse = new ErrorResponse<>(message, false);
 
 		return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);

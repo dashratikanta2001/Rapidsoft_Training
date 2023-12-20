@@ -7,7 +7,7 @@ public interface PostService {
 
 	
 	//Create post
-	Response<?> createPost(PostDto postDto, String email, Integer categoryId);
+	Response<?> createPost(PostDto postDto, Integer userId, Integer categoryId);
 	
 	
 	//Update Post
@@ -29,6 +29,10 @@ public interface PostService {
 	
 	//get post by user
 	Response<?> getPostByUser(Integer userId);
+
+
+	//search post using keyword
+	Response<?> searchPost(String keywords);
 	
 	
 }

@@ -6,9 +6,16 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 
 public class UserDto {
+	
+	@Autowired
+	private ModelMapper modelMapper;
+	
 	private int id;
 
 	@NotEmpty
@@ -79,5 +86,6 @@ public class UserDto {
 		// TODO Auto-generated constructor stub
 	}
 
+	
 
 }

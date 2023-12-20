@@ -1,6 +1,7 @@
 package com.blog.entity;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,10 +15,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-	
+
 @Entity
 @Table(name = "users")
-public class User{
+public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,13 +34,13 @@ public class User{
 	private String about;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<Post> posts;
+	private Set<Post> posts;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "id"))
-	private List<Role> roles;
+	private Set<Role> roles;
 
-	public User(int id, String name, String email, String password, String about, List<Post> posts, List<Role> roles) {
+	public User(int id, String name, String email, String password, String about, Set<Post> posts, Set<Role> roles) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -50,11 +51,11 @@ public class User{
 		this.roles = roles;
 	}
 
-	public List<Role> getRoles() {
+	public Set<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(List<Role> roles) {
+	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
 
@@ -112,15 +113,15 @@ public class User{
 		// TODO Auto-generated constructor stub
 	}
 
-	public List<Post> getPosts() {
+	public Set<Post> getPosts() {
 		return posts;
 	}
 
-	public void setPosts(List<Post> posts) {
+	public void setPosts(Set<Post> posts) {
 		this.posts = posts;
 	}
 
-	public User(int id, String name, String email, String password, String about, List<Post> posts) {
+	public User(int id, String name, String email, String password, String about, Set<Post> posts) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -130,13 +131,10 @@ public class User{
 		this.posts = posts;
 	}
 
-
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", about=" + about
 				+ ", posts=" + posts + ", roles=" + roles + "]";
 	}
-	
-	
 
 }

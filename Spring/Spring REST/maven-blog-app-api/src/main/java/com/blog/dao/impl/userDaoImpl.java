@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -28,6 +29,7 @@ public class userDaoImpl implements UserDao {
 		// TODO Auto-generated method stub
 
 		try {
+
 			sessionFactory.getCurrentSession().saveOrUpdate(user);
 			return user;
 		} catch (Exception e) {
@@ -39,35 +41,37 @@ public class userDaoImpl implements UserDao {
 	@Override
 	public Optional<User> findById(int userId) {
 		// TODO Auto-generated method stub
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class);
-//		User user = null;
-		criteria.add(Restrictions.eq("id", userId));
 
-		return Optional.of((User)criteria.uniqueResult());
+		User user = sessionFactory.getCurrentSession().get(User.class, userId);
+
+		if (user == null) {
+			return Optional.empty();
+		}
+
+		return Optional.of(user);
 	}
 
 	@Override
 	public Optional<User> findByEmail(String email) {
 		// TODO Auto-generated method stub
-		
+
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class);
-		
+
 		criteria.add(Restrictions.eq("email", email));
 		User user = (User) criteria.uniqueResult();
-		if(user == null)
-		{
+		if (user == null) {
 			return Optional.empty();
 		}
-		
+
 		return Optional.of(user);
 	}
 
 	@Override
 	public List<User> findAll() {
 		// TODO Auto-generated method stub
-		
+
 		List<User> resultList = sessionFactory.getCurrentSession().createQuery("from User", User.class).getResultList();
-		
+
 		return resultList;
 	}
 

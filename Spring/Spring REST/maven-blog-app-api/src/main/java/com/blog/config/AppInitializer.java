@@ -2,7 +2,7 @@ package com.blog.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer{
+public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	
 	@Override
@@ -22,7 +22,6 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		// TODO Auto-generated method stub
 		return new String[] {"/"};
 	}
-	
-	
+
 
 }

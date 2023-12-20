@@ -34,10 +34,17 @@ public class UserController {
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 	
-	@GetMapping("/{email}")
+	@GetMapping("/username/{email}")
 	public ResponseEntity<?> userById(@PathVariable String email)
 	{
 		Response<?> user = this.userService.findByEmail(email);
+		return new ResponseEntity<>(user, HttpStatus.OK);
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<?> userById(@PathVariable Integer id)
+	{
+		Response<?> user = this.userService.findById(id);
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 	

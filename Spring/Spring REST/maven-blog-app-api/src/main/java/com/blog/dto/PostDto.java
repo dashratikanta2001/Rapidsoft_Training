@@ -1,10 +1,12 @@
 package com.blog.dto;
 
-import java.util.Date;  
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 //import jakarta.validation.constraints.NotBlank;
@@ -24,11 +26,12 @@ public class PostDto {
 
 	private String imageName;
 
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date addDate;
 
-	private CategoryDto category;
-
 	private UserDto user;
+
+	private CategoryDto category;
 
 	private List<CommentDto> comments;
 
