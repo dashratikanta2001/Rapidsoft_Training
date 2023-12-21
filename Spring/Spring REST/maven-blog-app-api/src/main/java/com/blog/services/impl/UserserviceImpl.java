@@ -19,6 +19,7 @@ import com.blog.entity.Role;
 import com.blog.entity.User;
 import com.blog.exceptions.ResourceNotFoundException;
 import com.blog.response.Response;
+import com.blog.services.CredentialService;
 import com.blog.services.UserService;
 
 @Service
@@ -29,6 +30,9 @@ public class UserserviceImpl implements UserService {
 	
 	@Autowired
 	private RoleDao roleDao;
+	
+	@Autowired
+	private CredentialService credentialService;
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -39,19 +43,17 @@ public class UserserviceImpl implements UserService {
 
 		if (!userDao.findByEmail(userDto.getEmail()).isPresent()) {
 			User dtoToUser = this.dtoToUser(userDto);
+					
 			
-			Role findByName = roleDao.findByName(AppConstants.ROLE_USER);
-						
-			Set<Role> roles = new HashSet<>();
-			roles.add(findByName);
-			dtoToUser.setRoles(roles);
 
 			User user = this.userDao.save(dtoToUser);
 			if (user == null) {
 				return new Response<>("User not added.", null, HttpStatus.BAD_REQUEST.value());
 
 			}
-			return new Response<>("User added successfully.", user, HttpStatus.CREATED.value());
+			
+			return credentialService.addUserCredential(userDto);
+//			return new Response<>("User added successfully.", user, HttpStatus.CREATED.value());
 		} else {
 			return new Response<>("Email id already exist.", null, HttpStatus.BAD_REQUEST.value());
 		}
@@ -98,8 +100,8 @@ public class UserserviceImpl implements UserService {
 
 		user.setName(userDto.getName());
 //		user.setEmail(userDto.getEmail());
-		user.setPassword(userDto.getPassword());
-		user.setAbout(userDto.getAbout());
+//		user.setPassword(userDto.getPassword());
+		user.setAbout(userDto.getAbout());	
 
 
 		User savedUser = userDao.save(user);

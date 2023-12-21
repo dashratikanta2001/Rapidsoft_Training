@@ -59,7 +59,7 @@ public class PostDaoImpl implements PostDao {
 			return Optional.empty();
 		}
 
-		Hibernate.initialize(post.getUser().getRoles());
+//		Hibernate.initialize(post.getUser().getRoles());
 		Hibernate.initialize(post.getComments());
 
 		return Optional.of(post);
@@ -76,7 +76,7 @@ public class PostDaoImpl implements PostDao {
 //		}
 
 		for (Post post : resultList) {
-			Hibernate.initialize(post.getUser().getRoles());
+//			Hibernate.initialize(post.getUser().getRoles());
 			Hibernate.initialize(post.getComments());
 		}
 
@@ -94,7 +94,7 @@ public class PostDaoImpl implements PostDao {
 		List<Post> list = criteria.list();
 		if (!list.isEmpty()) {
 			for (Post post2 : list) {
-				Hibernate.initialize(post2.getUser().getRoles());
+//				Hibernate.initialize(post2.getUser().getRoles());
 				Hibernate.initialize(post2.getComments());
 			}
 
@@ -115,7 +115,7 @@ public class PostDaoImpl implements PostDao {
 		List<Post> list = criteria.list();
 		if (!list.isEmpty()) {
 			for (Post post2 : list) {
-				Hibernate.initialize(post2.getUser().getRoles());
+//				Hibernate.initialize(post2.getUser().getRoles());
 				Hibernate.initialize(post2.getComments());
 			}
 
@@ -138,7 +138,7 @@ public class PostDaoImpl implements PostDao {
 		
 		if (!list.isEmpty()) {
 			for (Post post2 : list) {
-				Hibernate.initialize(post2.getUser().getRoles());
+//				Hibernate.initialize(post2.getUser().getRoles());
 				Hibernate.initialize(post2.getComments());
 			}
 

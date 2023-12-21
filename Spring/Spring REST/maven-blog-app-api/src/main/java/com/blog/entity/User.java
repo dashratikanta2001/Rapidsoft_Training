@@ -1,6 +1,5 @@
 package com.blog.entity;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -27,36 +26,21 @@ public class User {
 	@Column(name = "name", nullable = false, length = 100)
 	private String name;
 
+	@Column(name = "email")
 	private String email;
-
-	private String password;
 
 	private String about;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Post> posts;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "id"))
-	private Set<Role> roles;
-
-	public User(int id, String name, String email, String password, String about, Set<Post> posts, Set<Role> roles) {
+	public User(int id, String name, String email, String about, Set<Post> posts, Set<Role> roles) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
-		this.password = password;
 		this.about = about;
 		this.posts = posts;
-		this.roles = roles;
-	}
-
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
 	}
 
 	public int getId() {
@@ -83,14 +67,6 @@ public class User {
 		this.email = email;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	public String getAbout() {
 		return about;
 	}
@@ -99,12 +75,11 @@ public class User {
 		this.about = about;
 	}
 
-	public User(int id, String name, String email, String password, String about) {
+	public User(int id, String name, String email, String about) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
-		this.password = password;
 		this.about = about;
 	}
 
@@ -121,20 +96,18 @@ public class User {
 		this.posts = posts;
 	}
 
-	public User(int id, String name, String email, String password, String about, Set<Post> posts) {
+	public User(int id, String name, String email, String about, Set<Post> posts) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
-		this.password = password;
 		this.about = about;
 		this.posts = posts;
 	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", about=" + about
-				+ ", posts=" + posts + ", roles=" + roles + "]";
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", about=" + about + ", posts=" + posts + "]";
 	}
 
 }

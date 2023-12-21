@@ -34,15 +34,15 @@ public class UserDto {
 	@NotEmpty
 	private String about;
 	
-	private List<RoleDto> roles;
+//	private List<RoleDto> roles;
 
-	
-	public List<RoleDto> getRoles() {
-		return roles;
-	}
-	public void setRoles(List<RoleDto> roles) {
-		this.roles = roles;
-	}
+//	
+//	public List<RoleDto> getRoles() {
+//		return roles;
+//	}
+//	public void setRoles(List<RoleDto> roles) {
+//		this.roles = roles;
+//	}
 	public int getId() {
 		return id;
 	}
