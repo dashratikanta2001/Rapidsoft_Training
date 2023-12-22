@@ -40,9 +40,9 @@ public class CredentialMaster {
 	@Column(name = "is_active")
 	private Boolean isActive;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "id"))
-	private Set<Role> roles;
+	private Role roles;
 
 	public Integer getId() {
 		return id;
@@ -97,16 +97,16 @@ public class CredentialMaster {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Set<Role> getRoles() {
+	public Role getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<Role> roles) {
+	public void setRoles(Role roles) {
 		this.roles = roles;
 	}
 
 	public CredentialMaster(Integer id, User user, String username, String password, Date createdOn, Boolean isActive,
-			Set<Role> roles) {
+			Role roles) {
 		super();
 		this.id = id;
 		this.user = user;

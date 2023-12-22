@@ -1,13 +1,13 @@
 package com.blog.services.impl;
 
-import java.util.Date;
+import java.util.Date; 
 import java.util.HashSet;
 import java.util.Set;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.blog.config.AppConstants;
@@ -50,16 +50,16 @@ public class CredentialServiceImpl implements CredentialService {
 		
 		credentialMaster.setUser(user);
 		credentialMaster.setUsername(user.getEmail());
-//		credentialMaster.setPassword(passwordEncoder.encode(userDto.getPassword()));
-		credentialMaster.setPassword(userDto.getPassword());
+		credentialMaster.setPassword(passwordEncoder.encode(userDto.getPassword()));
+//		credentialMaster.setPassword(userDto.getPassword());
 		credentialMaster.setCreatedOn(new Date());
 		credentialMaster.setIsActive(true);
-		
-		Role findByName = roleDao.findByName(AppConstants.ROLE_USER);
-		
-		Set<Role> roles = new HashSet<>();
-		roles.add(findByName);
-		credentialMaster.setRoles(roles);
+//		
+//		Role findByName = roleDao.findByName(AppConstants.ROLE_USER);
+//		
+//		Set<Role> roles = new HashSet<>();
+//		roles.add(findByName);
+		credentialMaster.setRoles(roleDao.findByName(AppConstants.ROLE_USER));
 		
 		Integer saveCridential = credentialDao.saveCridential(credentialMaster);
 		

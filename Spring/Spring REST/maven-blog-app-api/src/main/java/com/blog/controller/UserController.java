@@ -1,5 +1,7 @@
 package com.blog.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +51,16 @@ public class UserController {
 	}
 	
 	@PostMapping("/")
-	public ResponseEntity<?> createuser(@Valid @RequestBody UserDto userDto)
+	public ResponseEntity<?> createuser(@Valid @RequestBody UserDto userDto, HttpServletRequest request, HttpServletResponse response)
 	{
+		
+		String header = request.getHeader("Authorization");
+		if(header == null)
+		{
+			System.out.println("Header value = "+header);
+			return new ResponseEntity<>(new Response<>("Unauthorize", null, HttpStatus.UNAUTHORIZED.value()),HttpStatus.UNAUTHORIZED);
+		}
+		
 		Response<?> user = this.userService.saveUser(userDto);
 		
 		if(user.getStatus() == HttpStatus.CREATED.value())
